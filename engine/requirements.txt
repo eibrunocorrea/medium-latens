@@ -1,7 +1,7 @@
 # Dependências do motor Python do Medium Latens. Versões fixadas de propósito (spec de abertura, S2).
 # Para atualizar: consulte https://pypi.org/pypi/<pacote>/json, troque a versão, rode a suíte.
 # numpy 2.3 em diante exige Python 3.11; 2.2.6 é a última versão que aceita 3.10
-numpy==2.2.6
+numpy==2.5.2
 opencv-python-headless==5.0.0.93
 mlx-whisper==0.4.3; sys_platform == "darwin" and platform_machine == "arm64"
 faster-whisper==1.2.1; sys_platform != "darwin" or platform_machine != "arm64"
