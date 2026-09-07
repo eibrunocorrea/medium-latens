@@ -45,3 +45,4 @@ All notable changes to Medium Latens are documented here. The format follows [Ke
 - CI and security badges in the README.
 - README rewritten around the project's intent: an assistant for people who already edit, tuned per niche, built by an independent developer; the Origins section tells that story, and the layout uses tables and alerts that render on GitHub.
 - Panel header shows the product version, read from `VERSION` through `/health`; the CEP bundle version follows the same number.
+- The server writes `mcp-config.json` in the user directory on first start, pointing to the premiere-pro-mcp installed by the bootstrap; a fresh install no longer fails with a missing MCP configuration.
