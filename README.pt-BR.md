@@ -2,6 +2,8 @@
 
 English version: [README.md](README.md).
 
+[![CI](https://github.com/eibrunocorrea/medium-latens/actions/workflows/ci.yml/badge.svg)](https://github.com/eibrunocorrea/medium-latens/actions/workflows/ci.yml) [![Segurança](https://github.com/eibrunocorrea/medium-latens/actions/workflows/seguranca.yml/badge.svg)](https://github.com/eibrunocorrea/medium-latens/actions/workflows/seguranca.yml)
+
 O Medium Latens é um editor assistente que trabalha dentro do Adobe Premiere Pro. Você conversa com ele num painel e ele executa na sua timeline: corta, move e rotula, monta o Brief Criativo como markers coloridos e aplica Auto Zoom em sequências multicam.
 
 Criado por Bruno Correa. Software livre sob a [AGPL-3.0](LICENSE).
