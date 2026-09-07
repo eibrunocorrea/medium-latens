@@ -94,6 +94,7 @@
 <header>
   <span class="dot" id="dot"></span>
   <strong>Medium Latens</strong>
+  <small id="versao"></small>
   <small id="status">conectando…</small>
   <span style="flex:1"></span>
   <button class="hbtn" id="openWizard">Contas</button>
@@ -585,13 +586,15 @@ function handle(ev) {
 async function health() {
   try {
     const r = await apiFetch("/health"); const j = await r.json();
+    $("versao").textContent = (j.version && j.version !== "não informada") ? j.version : "";
     dot.className = "dot ok";
     status.textContent = (j.provider || "") + " · " + j.model + " · " + (j.profile ? j.profile.label : "") +
       (j.session ? " · s:" + j.session : "");
     if (j.busy !== busy) setBusy(j.busy);
   } catch (e) {
+    $("versao").textContent = "";
     dot.className = "dot";
-    status.textContent = "server offline — veja ⚙ como religar";
+    status.textContent = "serviço offline, veja ⚙ para religar";
   }
 }
 health(); setInterval(health, 15000); connect();

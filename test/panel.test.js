@@ -10,6 +10,47 @@ const ROOT = path.join(__dirname, "..");
 const painel = fs.readFileSync(path.join(ROOT, "panel", "index.html"), "utf8");
 const manifest = fs.readFileSync(path.join(ROOT, "panel", "CSXS", "manifest.xml"), "utf8");
 
+function healthSource() {
+  const inicio = painel.indexOf("async function health()");
+  const fim = painel.indexOf("\nhealth();", inicio);
+  assert.ok(inicio >= 0 && fim > inicio, "função health não encontrada");
+  return painel.slice(inicio, fim);
+}
+
+test("cabeçalho reserva a versão vazia logo após o nome do produto", () => {
+  const header = painel.match(/<header>[\s\S]*?<\/header>/);
+  assert.ok(header, "cabeçalho não encontrado");
+  assert.match(header[0], /<strong>Medium Latens<\/strong>\s*<small id="versao"><\/small>/);
+});
+
+test("health exibe a versão recebida e omite a versão não informada", () => {
+  assert.match(
+    healthSource(),
+    /const j = await r\.json\(\);\s*\$\("versao"\)\.textContent = \(j\.version && j\.version !== "não informada"\) \? j\.version : "";/,
+  );
+});
+
+test("health limpa a versão quando o serviço fica offline", () => {
+  assert.match(healthSource(), /catch \(e\) \{[^]*?\$\("versao"\)\.textContent = "";/);
+});
+
+test("health orienta a religar o serviço em português e sem travessão", () => {
+  const texto = healthSource().match(/catch \(e\) \{[^]*?status\.textContent = "([^"]*)";/);
+  assert.ok(texto, "mensagem de serviço offline não encontrada");
+  assert.doesNotMatch(texto[1], /\u2014/);
+  assert.equal(texto[1], "serviço offline, veja ⚙ para religar");
+});
+
+test("manifest usa o prefixo numérico de VERSION no bundle e na extensão", () => {
+  const version = fs.readFileSync(path.join(ROOT, "VERSION"), "utf8").trim().replace(/-.*$/, "");
+  const bundle = manifest.match(/\bExtensionBundleVersion="([^"]+)"/);
+  const extension = manifest.match(/<Extension\s+Id="[^"]+"\s+Version="([^"]+)"/);
+  assert.ok(bundle, "versão do bundle não encontrada");
+  assert.ok(extension, "versão da extensão não encontrada");
+  assert.equal(bundle[1], version);
+  assert.equal(extension[1], version);
+});
+
 test("painel inclui o leitor de token antes do script principal", () => {
   const tokenScript = painel.indexOf('<script src="token.js"></script>');
   const principal = painel.indexOf("const API =");

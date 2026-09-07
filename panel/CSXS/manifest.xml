@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<ExtensionManifest ExtensionBundleId="com.brunocorrea.mediumlatens" ExtensionBundleVersion="1.0.0"
+<ExtensionManifest ExtensionBundleId="com.brunocorrea.mediumlatens" ExtensionBundleVersion="0.1.0"
   ExtensionBundleName="Medium Latens" Version="7.0">
   <ExtensionList>
     <Extension Id="com.brunocorrea.mediumlatens.panel" Version="0.1.0"/>

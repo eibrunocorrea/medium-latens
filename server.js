@@ -413,6 +413,7 @@ function handleRequest(req, res) {
     profiles.cliStatus().then((clis) => {
       res.end(JSON.stringify({
         ok: true, name: NAME, mode: "cli",
+        version: statusPage.readVersion(path.join(APP_DIR, "VERSION")),
         provider: p.provider, authMode: p.authMode,
         model: p.model || cfg.model || "padrão",
         profile: { name: p.name, label: p.label },

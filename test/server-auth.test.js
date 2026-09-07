@@ -7,6 +7,8 @@ const net = require("node:net");
 const http = require("node:http");
 const vm = require("node:vm");
 process.env.MEDIUM_LATENS_USER_DIR = fs.mkdtempSync(path.join(require("node:os").tmpdir(), "mlat-auth-"));
+const { APP_DIR } = require("../lib/paths");
+const version = fs.readFileSync(path.join(APP_DIR, "VERSION"), "utf8").trim();
 
 const serverFile = path.join(__dirname, "..", "server.js");
 const serverSource = fs.readFileSync(serverFile, "utf8");
@@ -26,6 +28,8 @@ function loadHandler(token, overrides = {}) {
     auth: require("../lib/auth"),
     telemetria: require("../lib/telemetria"),
     statusPage: require("../lib/status"),
+    APP_DIR,
+    path,
     TOKEN: token,
     settings: overrides.settings || {
       load: () => ({ profile: "default", provider: "claude", model: "" }),
@@ -91,6 +95,7 @@ test("handler recusa targets malformados e continua atendendo", async () => {
     }
     const health = await rawRequest(port, "/health");
     assert.match(health, /^HTTP\/1\.1 200 /);
+    assert.equal(JSON.parse(health.split("\r\n\r\n")[1]).version, version);
   } finally {
     await close(server);
   }
@@ -167,6 +172,7 @@ test("health responde 200 quando CLIs não estão instalados", async () => {
     assert.deepEqual(JSON.parse(response.split("\r\n\r\n")[1]), {
       ok: true,
       name: "Medium Latens",
+      version,
       mode: "cli",
       provider: "claude",
       authMode: "assinatura",
