@@ -51,6 +51,16 @@ require("./lib/userenv").load();
 // ACESSO TOTAL (decisão de projeto): perfil completo do MCP incl. unsafe-script
 // (também fixado no env do mcp-config.json, que é quem vale p/ o processo do MCP).
 const FULL_CAPS = "inspect,edit,export,filesystem,unsafe-script";
+const mcpConfigEstado = require("./lib/mcp-config").garantir({
+  userDir: USER_DIR, mcpConfigPath: MCP_CONFIG, nodeBin: process.execPath, capacidades: FULL_CAPS,
+});
+if (!mcpConfigEstado.ok) {
+  console.warn(`AVISO: ${mcpConfigEstado.motivo}; o assistente não vai alcançar o Premiere até o premiere-pro-mcp ser instalado`);
+} else if (mcpConfigEstado.criado) {
+  console.log(`mcp-config.json criado apontando para ${mcpConfigEstado.entrada}`);
+} else {
+  console.log("mcp-config.json mantido");
+}
 const ALLOWED = "mcp__premiere-pro__*,Bash,Read,Glob,Grep,Write,Edit,WebSearch,WebFetch";
 
 const SYSTEM = require("./lib/system").build({

@@ -21,6 +21,8 @@ node --test test/*.test.js          # a suíte precisa estar verde antes de qual
 node server.js                      # servidor local em 127.0.0.1:8765
 ```
 
+Na primeira inicialização, o servidor grava `mcp-config.json` na pasta do usuário apontando para o pacote `premiere-pro-mcp` que o bootstrap instala em `npm/`; sem rodar o bootstrap, você precisa instalar esse pacote ali por conta própria antes, caso contrário o assistente não consegue alcançar o Premiere.
+
 Para instalar o painel do Premiere, o LaunchAgent ou o serviço do Windows, o ambiente Python e as ferramentas de mídia exatamente como o instalador faz, rode o bootstrap apontando para o seu checkout:
 
 ```sh

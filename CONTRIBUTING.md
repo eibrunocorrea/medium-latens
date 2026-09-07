@@ -21,6 +21,8 @@ node --test test/*.test.js          # the suite must be green before you change 
 node server.js                      # local server on 127.0.0.1:8765
 ```
 
+On first startup, the server writes `mcp-config.json` in the user directory pointing to the `premiere-pro-mcp` package that the bootstrap installs under `npm/`; without running the bootstrap, you must install that package there yourself first, otherwise the assistant cannot reach Premiere.
+
 To install the Premiere panel, the LaunchAgent or Windows service, the Python environment and the media tools exactly as the installer does, run the bootstrap against your checkout:
 
 ```sh
