@@ -10,7 +10,7 @@
   "dependencies": {
     "@remotion/captions": "4.0.499",
     "@remotion/cli": "4.0.499",
-    "@remotion/zod-types": "4.0.499",
+    "@remotion/zod-types": "4.0.520",
     "react": "19.2.8",
     "react-dom": "19.2.8",
     "remotion": "4.0.499",
