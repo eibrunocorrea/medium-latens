@@ -1,0 +1,54 @@
+{
+ "words": [
+  {
+   "start": 88.94,
+   "end": 89.08,
+   "word": "o"
+  },
+  {
+   "start": 89.08,
+   "end": 89.44,
+   "word": "seguinte,"
+  },
+  {
+   "start": 89.8,
+   "end": 89.96,
+   "word": "nós"
+  },
+  {
+   "start": 89.96,
+   "end": 90.2,
+   "word": "vamos"
+  },
+  {
+   "start": 90.2,
+   "end": 90.62,
+   "word": "abrir"
+  },
+  {
+   "start": 90.62,
+   "end": 90.82,
+   "word": "esse"
+  },
+  {
+   "start": 90.82,
+   "end": 91.46,
+   "word": "pacote,"
+  },
+  {
+   "start": 91.84,
+   "end": 92.16,
+   "word": "essa"
+  },
+  {
+   "start": 92.16,
+   "end": 92.52,
+   "word": "daqui."
+  }
+ ],
+ "timeOffsetSeconds": 88.76,
+ "tailSeconds": 0.4,
+ "width": 3840,
+ "height": 2160,
+ "preset": "mkbhd"
+}

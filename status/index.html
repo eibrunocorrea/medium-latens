@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+  <title>Medium Latens não está respondendo</title>
+  <style>
+    :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; background: #11131a; color: #f5f7ff; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: radial-gradient(circle at top, #472a35, #11131a 48%); }
+    main { width: min(720px, calc(100% - 32px)); background: #191c2a; border: 1px solid #4f3843; border-radius: 16px; padding: 28px; }
+    h1 { margin-top: 0; font-size: clamp(1.7rem, 5vw, 2.4rem); }
+    p { line-height: 1.6; color: #d5d9e8; }
+    section { margin-top: 24px; padding-top: 18px; border-top: 1px solid #3b4057; }
+    h2 { font-size: 1.05rem; }
+    code { display: block; margin: 8px 0 14px; padding: 12px; border-radius: 9px; background: #0d0f16; overflow-wrap: anywhere; color: #f3d4ab; }
+    footer { margin-top: 26px; text-align: center; color: #aeb4c9; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>O serviço não está respondendo</h1>
+    <p>O Medium Latens não conseguiu abrir a página de status do serviço. Seus projetos continuam guardados na pasta do usuário.</p>
+    <section>
+      <h2>Onde encontrar os logs</h2>
+      <p>macOS</p>
+      <code>~/.medium-latens/logs/</code>
+      <p>Windows</p>
+      <code>%APPDATA%\Medium Latens\logs\</code>
+    </section>
+    <section>
+      <h2>Como reinstalar</h2>
+      <p>Abra novamente o instalador do Medium Latens e conclua todas as etapas. A reinstalação repara os componentes ausentes sem apagar seus projetos.</p>
+      <p>O instalador ainda não é assinado. No macOS, use Ajustes → Privacidade e Segurança → Abrir mesmo assim. No Windows, escolha Mais informações → Executar assim mesmo.</p>
+    </section>
+    <footer>Criado por Bruno Correa</footer>
+  </main>
+</body>
+</html>

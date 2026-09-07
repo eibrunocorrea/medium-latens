@@ -1,0 +1,44 @@
+{
+ "words": [
+  {
+   "start": 731.2,
+   "end": 731.46,
+   "word": "bom"
+  },
+  {
+   "start": 731.46,
+   "end": 731.94,
+   "word": "estado."
+  },
+  {
+   "start": 732.26,
+   "end": 732.84,
+   "word": "Nossa,"
+  },
+  {
+   "start": 733.0,
+   "end": 733.3,
+   "word": "isso"
+  },
+  {
+   "start": 733.3,
+   "end": 733.52,
+   "word": "me"
+  },
+  {
+   "start": 733.52,
+   "end": 734.06,
+   "word": "tranquilizou"
+  },
+  {
+   "start": 734.06,
+   "end": 734.42,
+   "word": "bastante."
+  }
+ ],
+ "timeOffsetSeconds": 731.06,
+ "tailSeconds": 0.4,
+ "width": 3840,
+ "height": 2160,
+ "preset": "mkbhd"
+}

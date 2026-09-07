@@ -1,0 +1,38 @@
+name: "Bug / Defeito"
+description: "Something broke / Algo quebrou"
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for the report. Security problems go through SECURITY.md, not here. / Obrigado pelo relato. Problema de segurança vai pelo SECURITY.md, não por aqui."
+  - type: input
+    id: versao
+    attributes:
+      label: "Version / Versão"
+      description: "VERSION file or status page / arquivo VERSION ou página de status"
+    validations:
+      required: true
+  - type: dropdown
+    id: sistema
+    attributes:
+      label: "System / Sistema"
+      options: [macOS, Windows]
+    validations:
+      required: true
+  - type: textarea
+    id: passos
+    attributes:
+      label: "Steps to reproduce / Passos para reproduzir"
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: "Expected vs actual / Esperado e o que aconteceu"
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: "Relevant log lines / Linhas de log relevantes"
+      description: "From the logs folder (status page button). Remove any key or token first. / Da pasta de logs (botão da página de status). Remova qualquer chave ou token antes."

@@ -1,0 +1,90 @@
+[
+ {
+  "n": 1,
+  "clip": 2,
+  "tl_start": 9.976,
+  "dur": 2.0,
+  "name": "Pokédex",
+  "rar": "uncommon"
+ },
+ {
+  "n": 2,
+  "clip": 3,
+  "tl_start": 15.248,
+  "dur": 2.0,
+  "name": "Grass Energy",
+  "rar": "common"
+ },
+ {
+  "n": 3,
+  "clip": 4,
+  "tl_start": 18.718,
+  "dur": 2.0,
+  "name": "Psychic Energy",
+  "rar": "common"
+ },
+ {
+  "n": 4,
+  "clip": 5,
+  "tl_start": 21.688,
+  "dur": 2.0,
+  "name": "Bellsprout",
+  "rar": "common"
+ },
+ {
+  "n": 5,
+  "clip": 6,
+  "tl_start": 25.025,
+  "dur": 2.0,
+  "name": "Nidoran ♀",
+  "rar": "common"
+ },
+ {
+  "n": 6,
+  "clip": 7,
+  "tl_start": 27.727,
+  "dur": 2.0,
+  "name": "Machop",
+  "rar": "common"
+ },
+ {
+  "n": 7,
+  "clip": 8,
+  "tl_start": 31.998,
+  "dur": 2.0,
+  "name": "Pidgey",
+  "rar": "common"
+ },
+ {
+  "n": 8,
+  "clip": 9,
+  "tl_start": 35.535,
+  "dur": 2.0,
+  "name": "Potion",
+  "rar": "common"
+ },
+ {
+  "n": 9,
+  "clip": 10,
+  "tl_start": 39.306,
+  "dur": 3.0,
+  "name": "Wigglytuff",
+  "rar": "holo rare"
+ },
+ {
+  "n": 10,
+  "clip": 11,
+  "tl_start": 45.278,
+  "dur": 2.0,
+  "name": "Parasect",
+  "rar": "uncommon"
+ },
+ {
+  "n": 11,
+  "clip": 12,
+  "tl_start": 48.949,
+  "dur": 2.0,
+  "name": "Machoke",
+  "rar": "uncommon"
+ }
+]

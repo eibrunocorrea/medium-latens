@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' file: 'unsafe-inline'; style-src 'unsafe-inline'; connect-src http://127.0.0.1:8765; img-src data:; base-uri 'none'; form-action 'none'">
+<title>Medium Latens</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; margin: 0; }
+  body { font: 13px/1.45 -apple-system, "Segoe UI", sans-serif; background:#1d1d1d; color:#e8e8e8;
+         display:flex; flex-direction:column; height:100vh; }
+  header { padding:8px 10px; background:#141414; border-bottom:1px solid #333;
+           display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+  header .dot { width:8px; height:8px; border-radius:50%; background:#e0443e; flex:none; }
+  header .dot.ok { background:#3fb950; }
+  header strong { font-size:13px; }
+  header small { color:#999; font-size:11px; }
+  header .hbtn { background:#333; color:#ccc; border:0; border-radius:6px; padding:2px 8px;
+                 font-size:12px; cursor:pointer; }
+  #log { flex:1; overflow-y:auto; padding:10px 12px; display:flex; flex-direction:column; gap:6px; }
+  .msg { max-width:94%; padding:7px 10px; border-radius:10px; white-space:pre-wrap; word-wrap:break-word; }
+  .user { align-self:flex-end; background:#2b4a78; }
+  .bot  { align-self:flex-start; background:#2a2a2a; border:1px solid #383838; }
+  .sys  { align-self:center; color:#888; font-size:11px; text-align:center; }
+  .err  { align-self:flex-start; background:#4a2626; border:1px solid #663; font-size:12px; }
+  .tool { align-self:flex-start; color:#9db4d0; font-size:11.5px; padding:1px 6px;
+          border-left:2px solid #44546a; max-width:96%; white-space:pre-wrap; word-break:break-all; }
+  .tool.done { color:#7fbf7f; border-left-color:#3fb950; }
+  .tool.fail { color:#d09d9d; border-left-color:#e0443e; }
+  .tool .in { color:#777; font-size:10.5px; }
+  .think { align-self:flex-start; color:#a08cc0; font-size:11px; }
+  .meta { align-self:flex-start; color:#666; font-size:10.5px; }
+  form { display:flex; gap:6px; padding:10px 12px; background:#141414; border-top:1px solid #333; }
+  textarea { flex:1; resize:none; height:52px; background:#222; color:#eee; border:1px solid #444;
+             border-radius:8px; padding:7px 9px; font:inherit; }
+  textarea:focus { outline:1px solid #5a8fd6; }
+  button.send { background:#c96442; color:#fff; border:0; border-radius:8px; padding:0 14px; font:inherit; cursor:pointer; }
+  button.send.stop { background:#a33; }
+  #settings { display:none; background:#181818; border-bottom:1px solid #333; padding:10px 12px;
+              font-size:12px; }
+  #settings.open { display:block; }
+  #settings h4 { font-size:11px; color:#999; margin:8px 0 4px; text-transform:uppercase; }
+  #settings select, #settings input { background:#222; color:#ddd; border:1px solid #444;
+              border-radius:6px; padding:3px 6px; font-size:12px; max-width:100%; }
+  #settings .row { display:flex; gap:6px; align-items:center; margin:4px 0; flex-wrap:wrap; }
+  #settings .cmd { background:#111; border:1px solid #333; border-radius:6px; padding:5px 7px;
+                   font:10.5px Menlo, monospace; color:#9c9; word-break:break-all; }
+  #settings .small { color:#888; font-size:10.5px; }
+  #settings button { background:#333; color:#ccc; border:0; border-radius:6px; padding:3px 9px;
+                     font-size:11.5px; cursor:pointer; }
+  nav { display:flex; gap:0; background:#141414; border-bottom:1px solid #333; }
+  nav button { flex:1; background:none; border:0; color:#888; padding:6px 0; font:inherit; font-size:12px; cursor:pointer; border-bottom:2px solid transparent; }
+  nav button.on { color:#e8e8e8; border-bottom-color:#c96442; }
+  .pane { display:none; flex:1; overflow-y:auto; flex-direction:column; }
+  .pane.on { display:flex; }
+  #brief { padding:10px 12px; gap:8px; }
+  #brief .bar, #zoom .bar { display:flex; gap:6px; flex-wrap:wrap; }
+  #brief .bar button, #brief .bar input, #zoom .bar button, #zoom .bar input { background:#333; color:#ccc; border:0; border-radius:6px; padding:4px 9px; font-size:12px; cursor:pointer; }
+  #brief .bar input, #zoom .bar input { background:#222; border:1px solid #444; cursor:text; }
+  #brief .small, #zoom .small { color:#888; font-size:10.5px; }
+  .tcard { background:#242424; border:1px solid #383838; border-radius:8px; padding:7px 9px; font-size:12px; }
+  .tcard .tc { color:#9db4d0; font-size:11px; cursor:pointer; }
+  .tcard .fala { color:#bbb; font-style:italic; margin:3px 0; }
+  .tcard .sec { margin-top:4px; }
+  .tcard .tag { font-size:10px; padding:0 5px; border-radius:4px; margin-right:5px; }
+  .tag.ins { background:#4b3a6b; } .tag.let { background:#6b4a2a; } .tag.cut { background:#6b2a2a; }
+  .tcard .prompt { background:#111; border:1px solid #333; border-radius:5px; padding:4px 6px;
+    font:10.5px Menlo, monospace; color:#9c9; word-break:break-all; cursor:pointer; margin-top:3px; }
+  .warn { color:#d0a94d; font-size:11px; }
+  #tokenWarning { display:none; padding:6px 10px; background:#332b18; color:#e2c46f;
+                  border-bottom:1px solid #594b28; font-size:11px; }
+  #wizard { display:none; background:#181818; border-bottom:1px solid #333; padding:12px;
+             max-height:70vh; overflow-y:auto; }
+  #wizard.open { display:block; }
+  #wizard .wizard-head { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
+  #wizard .wizard-head strong { font-size:14px; }
+  #wizard .wizard-head span { flex:1; }
+  #wizard button { background:#333; color:#ddd; border:0; border-radius:6px; padding:5px 9px;
+                   font-size:12px; cursor:pointer; }
+  #wizard button.primary { background:#c96442; color:#fff; }
+  #wizard input, #wizard select { width:100%; background:#222; color:#ddd; border:1px solid #444;
+                                 border-radius:6px; padding:6px 8px; font-size:12px; }
+  #wizardTracks { display:grid; gap:6px; }
+  #wizardTracks button { text-align:left; }
+  #wizardDetail { display:flex; flex-direction:column; gap:7px; margin-top:10px; }
+  #wizardAccounts { display:flex; flex-direction:column; gap:5px; margin-top:10px; }
+  .wizard-account { display:flex; align-items:center; gap:6px; color:#aaa; font-size:11px; }
+  .wizard-account span { flex:1; }
+  #wizardMessage { min-height:18px; margin-top:8px; color:#8bc98b; font-size:11px; }
+  #wizardMessage.error { color:#ef7777; }
+</style>
+</head>
+<body>
+<header>
+  <span class="dot" id="dot"></span>
+  <strong>Medium Latens</strong>
+  <small id="status">conectando…</small>
+  <span style="flex:1"></span>
+  <button class="hbtn" id="openWizard">Contas</button>
+  <button class="hbtn" id="gear" title="settings">⚙</button>
+  <button class="hbtn" id="new" title="nova conversa">＋</button>
+</header>
+<div id="tokenWarning">Não consegui ler a chave local do serviço. Abra a página de status pelo aplicativo Medium Latens na pasta Aplicativos (macOS) ou no menu Iniciar (Windows) e siga as instruções.</div>
+<section id="wizard" aria-label="Configuração de contas">
+  <div class="wizard-head"><strong>Configurar conta</strong><span></span><button id="closeWizard">Fechar</button></div>
+  <div id="wizardTracks"></div>
+  <div id="wizardDetail"></div>
+  <div id="wizardAccounts"></div>
+  <div id="wizardMessage" role="status"></div>
+</section>
+<div id="settings">
+  <h4>Conta / cérebro</h4>
+  <div class="row"><select id="profSel"></select><span id="profAuth" class="small"></span></div>
+  <div id="loginBox" style="display:none">
+    <div class="small">Perfil sem login — rode 1× no Terminal e volte:</div>
+    <div class="row"><span class="cmd" id="loginCmd"></span><button id="copyCmd">copiar</button></div>
+  </div>
+  <div id="keyBox" style="display:none" class="small">⚠ falta <b id="keyVar"></b> no .env do usuário; adicione lá e reinicie o serviço</div>
+  <div class="row">
+    <span class="small">nova conta:</span>
+    <select id="npProv">
+      <option value="claude">Claude</option>
+      <option value="codex">GPT (Codex)</option>
+      <option value="gemini">Gemini</option>
+      <option value="openrouter">OpenRouter</option>
+    </select>
+    <select id="npAuth">
+      <option value="assinatura">assinatura</option>
+      <option value="api-key">api-key</option>
+    </select>
+    <input id="npName" placeholder="nome" size="9">
+    <input id="npModel" placeholder="modelo (opcional)" size="13">
+    <button id="addProf">adicionar</button>
+  </div>
+  <div class="row">
+    <select id="model" title="modelo por turno (só Claude)">
+      <option value="">modelo: padrão</option>
+      <option value="opus">opus</option>
+      <option value="sonnet">sonnet</option>
+      <option value="haiku">haiku</option>
+    </select>
+    <span class="small" id="quotaTxt"></span>
+  </div>
+  <h4>Geração</h4>
+  <div class="row">
+    <span class="small">voz:</span>
+    <select id="voiceSel"><option value="principal">voz principal</option><option value="cloud">Cloud</option></select>
+    <span class="small">imagem:</span>
+    <select id="imgSel">
+      <option value="gemini">Nano Banana (Gemini)</option>
+      <option value="bfl">Flux (BFL)</option>
+      <option value="openai">GPT-Image</option>
+      <option value="cloudflare">Flux Schnell (CF)</option>
+    </select>
+  </div>
+</div>
+<nav>
+  <button id="tabChat" class="on">Chat</button>
+  <button id="tabBrief">Brief</button>
+  <button id="tabZoom">Auto Zoom</button>
+</nav>
+<div id="chatPane" class="pane on">
+<div id="log"><div class="msg sys">Medium Latens: edição por prompt, ao vivo</div></div>
+<form id="f">
+  <textarea id="t" placeholder="ex.: corta os silêncios da sequência…" autofocus></textarea>
+  <button id="b" type="submit" class="send">▶</button>
+</form>
+</div>
+<div id="brief" class="pane">
+  <div class="bar">
+    <input id="briefWs" placeholder="workspace (transcript)" size="14">
+    <button id="briefGenT">Gerar do transcript</button>
+    <button id="briefGenC">Gerar de CSV…</button>
+    <input type="file" id="briefCsv" accept=".csv,.txt" style="display:none">
+  </div>
+  <div class="bar">
+    <button id="briefPlant">Plantar markers</button>
+    <button id="briefClear">Limpar markers do brief</button>
+  </div>
+  <div id="briefMeta" class="small"></div>
+  <div id="briefList" style="display:flex;flex-direction:column;gap:6px;"></div>
+</div>
+<div id="zoom" class="pane" style="padding:10px 12px; gap:8px;">
+  <div class="bar">
+    <button id="azCam">DEFINIR câmera pelo painel Projeto</button>
+    <span id="azCamLabel" class="small"></span>
+  </div>
+  <h4 style="font-size:11px;color:#999;text-transform:uppercase;">Zooms</h4>
+  <div id="azPresets" style="display:flex;flex-direction:column;gap:5px;"></div>
+  <div class="bar"><button id="azLearn">+ adicionar zoom do clipe selecionado</button></div>
+  <h4 style="font-size:11px;color:#999;text-transform:uppercase;">Push (cortes &gt; 5s)</h4>
+  <div id="azPush" class="small"></div>
+  <div class="bar"><button id="azPushLearn">criar push do clipe selecionado</button>
+    <button id="azPushDel">excluir push</button></div>
+  <h4 style="font-size:11px;color:#999;text-transform:uppercase;">Auto Zoom</h4>
+  <div class="bar">
+    <button id="azAnalyze">ANALISAR rotação</button>
+    <button id="azApply">APLICAR rotação</button>
+    <button id="azRedo">REFAZER rotação</button>
+  </div>
+  <div id="azStatus" class="small"></div>
+</div>
+<script src="token.js"></script>
+<script>
+const API = "http://127.0.0.1:8765";
+const nodeRequire = typeof require === "function" ? require : null;
+const nodeEnv = nodeRequire && typeof process !== "undefined" && process.env ? process.env : {};
+let userData = "";
+try {
+  if (window.__adobe_cep__ && typeof window.__adobe_cep__.getSystemPath === "function") {
+    userData = window.__adobe_cep__.getSystemPath("userData") || "";
+  }
+} catch (e) {}
+const leitor = window.MediumLatensToken || { lerToken: function () { return { token: "", motivo: "sem_leitor" }; } };
+const tokenLocal = leitor.lerToken({
+  cep: window.cep,
+  require: nodeRequire,
+  plataforma: navigator.platform,
+  userData,
+  home: nodeEnv.HOME || nodeEnv.USERPROFILE || "",
+  appData: nodeEnv.APPDATA || "",
+});
+const TOKEN = tokenLocal.token;
+if (!TOKEN) document.getElementById("tokenWarning").style.display = "block";
+
+function apiFetch(caminho, opcoes) {
+  const o = opcoes || {};
+  o.headers = Object.assign({}, o.headers || {}, { "x-medium-latens-token": TOKEN });
+  const endpoint = API + caminho;
+  return fetch(endpoint, o);
+}
+
+const $ = (id) => document.getElementById(id);
+const log = $("log"), t = $("t"), b = $("b"), dot = $("dot"), status = $("status");
+let busy = false, botDiv = null, thinkDiv = null;
+const toolDivs = {}; // tool_use id -> div
+
+// ---------- assistente de contas ----------
+let wizardPoll = null;
+let emConsulta = false;
+
+function limparElemento(elemento) {
+  while (elemento.firstChild) elemento.removeChild(elemento.firstChild);
+}
+
+function mostrarMensagemWizard(texto, erro) {
+  const linha = $("wizardMessage");
+  linha.textContent = texto || "";
+  linha.classList.toggle("error", !!erro);
+}
+
+function criarTexto(tag, texto, classe) {
+  const elemento = document.createElement(tag);
+  elemento.textContent = texto;
+  if (classe) elemento.className = classe;
+  return elemento;
+}
+
+function criarBotao(texto, aoClicar, classe) {
+  const botao = document.createElement("button");
+  botao.type = "button";
+  botao.textContent = texto;
+  if (classe) botao.className = classe;
+  botao.addEventListener("click", aoClicar);
+  return botao;
+}
+
+async function chamarWizard(caminho, opcoes) {
+  try {
+    const resposta = await apiFetch(caminho, opcoes);
+    const dados = await resposta.json().catch(() => ({}));
+    return { ok: resposta.ok && dados.ok !== false, dados };
+  } catch (_erro) {
+    return { ok: false, dados: { motivo: "Não foi possível falar com o serviço agora." } };
+  }
+}
+
+function pararConsultaWizard() {
+  if (wizardPoll) clearInterval(wizardPoll);
+  wizardPoll = null;
+}
+
+function consultarLoginWizard(id) {
+  pararConsultaWizard();
+  const inicio = Date.now();
+  wizardPoll = setInterval(async () => {
+    if (Date.now() - inicio >= 120000) {
+      pararConsultaWizard();
+      mostrarMensagemWizard("O tempo de espera terminou. Você pode tentar entrar de novo.", true);
+      return;
+    }
+    if (emConsulta) return;
+    emConsulta = true;
+    try {
+      const resultado = await chamarWizard("/wizard/estado?id=" + encodeURIComponent(id));
+      if (resultado.ok && resultado.dados.auth && resultado.dados.auth.loggedIn) {
+        const ativacao = await chamarWizard("/wizard/ativar", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ id }),
+        });
+        if (!ativacao.ok) {
+          mostrarMensagemWizard(ativacao.dados.motivo || "Não foi possível ativar a conta.", true);
+          return;
+        }
+        pararConsultaWizard();
+        mostrarMensagemWizard("Conectado e ativada.", false);
+        loadSettings();
+        health();
+      }
+    } finally {
+      emConsulta = false;
+    }
+  }, 3000);
+}
+
+function mostrarAssinaturaWizard(trilho) {
+  const detalhe = $("wizardDetail");
+  limparElemento(detalhe);
+  detalhe.appendChild(criarTexto("strong", trilho.titulo));
+  detalhe.appendChild(criarTexto("div", "O navegador será aberto para você concluir o acesso.", "small"));
+  const provider = trilho.id === "claude-assinatura" ? "claude" : "codex";
+  detalhe.appendChild(criarBotao("Entrar", async () => {
+    mostrarMensagemWizard("Abrindo o login...", false);
+    const resultado = await chamarWizard("/wizard/assinatura", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ provider, id: trilho.id }),
+    });
+    if (!resultado.ok) {
+      mostrarMensagemWizard(resultado.dados.motivo || "Não foi possível abrir o login.", true);
+      return;
+    }
+    mostrarMensagemWizard("Abrimos seu navegador. Conclua o login por lá e volte aqui.", false);
+    consultarLoginWizard(resultado.dados.perfil.name);
+  }, "primary"));
+}
+
+function adicionarOpcao(select, valor, texto) {
+  const opcao = document.createElement("option");
+  opcao.value = valor;
+  opcao.textContent = texto;
+  select.appendChild(opcao);
+}
+
+function mostrarChaveWizard() {
+  const detalhe = $("wizardDetail");
+  limparElemento(detalhe);
+  detalhe.appendChild(criarTexto("strong", "Usar minha própria chave de API"));
+
+  const id = document.createElement("input");
+  id.id = "wizardId";
+  id.placeholder = "Nome desta conta";
+  detalhe.appendChild(id);
+
+  const provider = document.createElement("select");
+  provider.id = "wizardProvider";
+  adicionarOpcao(provider, "anthropic", "Anthropic");
+  adicionarOpcao(provider, "openai", "OpenAI");
+  adicionarOpcao(provider, "compativel", "Serviço compatível");
+  detalhe.appendChild(provider);
+
+  const wizardKey = document.createElement("input");
+  wizardKey.id = "wizardKey";
+  wizardKey.type = "password";
+  wizardKey.autocomplete = "off";
+  wizardKey.placeholder = "Chave de API";
+  detalhe.appendChild(wizardKey);
+
+  const endpoint = document.createElement("input");
+  endpoint.id = "wizardEndpoint";
+  endpoint.placeholder = "Endereço do serviço compatível, opcional";
+  detalhe.appendChild(endpoint);
+  const atualizarEndpoint = () => {
+    const compativel = provider.value === "compativel";
+    endpoint.style.display = compativel ? "block" : "none";
+    if (!compativel) endpoint.value = "";
+  };
+  provider.addEventListener("change", atualizarEndpoint);
+  atualizarEndpoint();
+
+  const modelos = document.createElement("select");
+  modelos.id = "wizardModel";
+  modelos.style.display = "none";
+  detalhe.appendChild(modelos);
+
+  const salvar = criarBotao("Salvar", async () => {
+    if (!id.value.trim() || !modelos.value) {
+      mostrarMensagemWizard("Dê um nome para a conta e escolha um modelo.", true);
+      return;
+    }
+    const resultado = await chamarWizard("/wizard/salvar", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        id: id.value.trim(), provider: provider.value, key: wizardKey.value,
+        endpoint: endpoint.value.trim() || undefined, model: modelos.value,
+      }),
+    });
+    wizardKey.value = "";
+    if (!resultado.ok) {
+      mostrarMensagemWizard(resultado.dados.motivo || "Não foi possível salvar a conta.", true);
+      return;
+    }
+    await carregarWizard(true, "Conta salva e ativada.");
+    loadSettings();
+    health();
+  }, "primary");
+  salvar.style.display = "none";
+  detalhe.appendChild(salvar);
+
+  detalhe.appendChild(criarBotao("Validar", async () => {
+    modelos.style.display = "none";
+    salvar.style.display = "none";
+    limparElemento(modelos);
+    const resultado = await chamarWizard("/wizard/validar", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        provider: provider.value, key: wizardKey.value, endpoint: endpoint.value.trim() || undefined,
+      }),
+    });
+    if (!resultado.ok) {
+      mostrarMensagemWizard(resultado.dados.motivo || "Não foi possível validar a chave.", true);
+      return;
+    }
+    if (resultado.dados.endpoint) endpoint.value = resultado.dados.endpoint;
+    const lista = Array.isArray(resultado.dados.modelos) ? resultado.dados.modelos : [];
+    if (!lista.length) {
+      mostrarMensagemWizard("A chave foi aceita, mas o provedor não informou modelos disponíveis.", true);
+      return;
+    }
+    for (const nome of lista) adicionarOpcao(modelos, nome, nome);
+    modelos.style.display = "block";
+    salvar.style.display = "block";
+    mostrarMensagemWizard("Chave validada. Escolha um modelo e salve.", false);
+  }));
+}
+
+function renderizarWizard(dados, mensagem) {
+  const trilhos = $("wizardTracks");
+  const contas = $("wizardAccounts");
+  limparElemento(trilhos);
+  limparElemento($("wizardDetail"));
+  limparElemento(contas);
+  if (!mensagem) mostrarMensagemWizard("", false);
+
+  for (const trilho of dados.trilhos || []) {
+    trilhos.appendChild(criarBotao(trilho.titulo, () => {
+      if (trilho.tipo === "assinatura") mostrarAssinaturaWizard(trilho);
+      else mostrarChaveWizard();
+    }));
+  }
+
+  if ((dados.contas || []).length) contas.appendChild(criarTexto("strong", "Contas com chave salvas"));
+  for (const conta of dados.contas || []) {
+    const linha = document.createElement("div");
+    linha.className = "wizard-account";
+    const descricao = document.createElement("span");
+    descricao.textContent = conta.id + "  " + conta.masked;
+    linha.appendChild(descricao);
+    linha.appendChild(criarBotao("Remover", async () => {
+      const resultado = await chamarWizard("/wizard/remover", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ id: conta.id }),
+      });
+      if (!resultado.ok) {
+        mostrarMensagemWizard(resultado.dados.motivo || "Não foi possível remover a conta.", true);
+        return;
+      }
+      await carregarWizard(true, "Conta removida.");
+      loadSettings();
+      health();
+    }));
+    contas.appendChild(linha);
+  }
+}
+
+async function carregarWizard(abrir, mensagem) {
+  const resultado = await chamarWizard("/wizard");
+  if (!resultado.ok) {
+    if (abrir) {
+      $("wizard").classList.add("open");
+      mostrarMensagemWizard(resultado.dados.motivo || "Não foi possível carregar as contas.", true);
+    }
+    return;
+  }
+  renderizarWizard(resultado.dados, mensagem);
+  if (mensagem) mostrarMensagemWizard(mensagem, false);
+  let deveAbrir = !!abrir;
+  if (!deveAbrir && !(resultado.dados.contas || []).length) {
+    const estado = await chamarWizard("/wizard/estado?id=" + encodeURIComponent(resultado.dados.ativo));
+    deveAbrir = !estado.ok || !estado.dados.auth || !estado.dados.auth.loggedIn;
+  }
+  $("wizard").classList.toggle("open", deveAbrir);
+}
+
+$("openWizard").addEventListener("click", () => carregarWizard(true));
+$("closeWizard").addEventListener("click", () => {
+  $("wizard").classList.remove("open");
+  pararConsultaWizard();
+});
+carregarWizard(false);
+// ---------- fim do assistente de contas ----------
+
+function add(cls, text) {
+  const d = document.createElement("div"); d.className = "msg " + cls; d.textContent = text;
+  log.appendChild(d); log.scrollTop = log.scrollHeight; return d;
+}
+function shortTool(name) { return name.replace(/^mcp__premiere-pro__/, "🎬 ").replace(/^mcp__/, ""); }
+function setBusy(v) {
+  busy = v;
+  b.textContent = v ? "■" : "▶";
+  b.classList.toggle("stop", v);
+  if (!v) { thinkDiv && thinkDiv.remove(); thinkDiv = null; }
+}
+
+// ---------- stream (SSE) ----------
+let es = null;
+function connect() {
+  if (es) try { es.close(); } catch (e) {}
+  es = new EventSource(API + "/stream?t=" + encodeURIComponent(TOKEN));
+  es.onopen = () => { dot.className = "dot ok"; };
+  es.onerror = () => { dot.className = "dot"; setTimeout(connect, 4000); };
+  es.onmessage = (m) => {
+    let ev; try { ev = JSON.parse(m.data); } catch (e) { return; }
+    handle(ev);
+  };
+}
+function handle(ev) {
+  if (ev.kind === "init") {
+    status.textContent = (ev.model || "") + " · " + (ev.apiKeySource === "none" ? "assinatura" : ev.apiKeySource) +
+      (ev.session ? " · s:" + ev.session.slice(0, 8) : "");
+  } else if (ev.kind === "status") {
+    add("sys", ev.message);
+  } else if (ev.kind === "thinking") {
+    if (!thinkDiv) thinkDiv = add("msg think", "");
+    thinkDiv.className = "msg think";
+    thinkDiv.textContent = "🧠 pensando… ~" + ev.tokens + " tokens";
+  } else if (ev.kind === "tool_start") {
+    botDiv = null;
+    const d = add("msg tool", "▸ " + shortTool(ev.name) + " — rodando…");
+    d.className = "msg tool"; toolDivs[ev.id] = { div: d, name: ev.name };
+  } else if (ev.kind === "tool_input") {
+    const t0 = toolDivs[ev.id];
+    if (t0 && ev.input && ev.input !== "{}") {
+      t0.div.textContent = "▸ " + shortTool(ev.name) + " — rodando…";
+      const s = document.createElement("div"); s.className = "in"; s.textContent = ev.input.slice(0, 200);
+      t0.div.appendChild(s);
+    }
+  } else if (ev.kind === "tool_end") {
+    const t0 = toolDivs[ev.id];
+    if (t0) {
+      t0.div.classList.add(ev.ok ? "done" : "fail");
+      t0.div.firstChild.textContent = (ev.ok ? "✓ " : "✗ ") + shortTool(t0.name) +
+        (ev.summary ? " — " + ev.summary.slice(0, 120) : "");
+      delete toolDivs[ev.id];
+    }
+  } else if (ev.kind === "text") {
+    if (thinkDiv) { thinkDiv.remove(); thinkDiv = null; }
+    if (!botDiv) botDiv = add("bot", "");
+    botDiv.textContent += ev.delta;
+    log.scrollTop = log.scrollHeight;
+  } else if (ev.kind === "quota") {
+    if (ev.info && ev.info.resetsAt) {
+      const mins = Math.max(0, Math.round((ev.info.resetsAt * 1000 - Date.now()) / 60000));
+      $("quotaTxt").textContent = "quota " + (ev.info.status || "") + " · reseta em " + mins + "min";
+    }
+  } else if (ev.kind === "done") {
+    setBusy(false); botDiv = null;
+    for (const k in toolDivs) delete toolDivs[k];
+    if (!ev.ok && !ev.canceled) add("err", "⚠ " + (ev.error || "falhou"));
+    if (ev.canceled) add("sys", "✕ cancelado (conversa preservada)");
+    if (ev.ok) {
+      const secs = ev.durationMs ? (ev.durationMs / 1000).toFixed(1) + "s" : "";
+      const cost = (ev.cost != null) ? " · $" + Number(ev.cost).toFixed(3) : "";
+      add("meta", "✓ " + secs + cost + (ev.session ? " · s:" + ev.session.slice(0, 8) : ""));
+    }
+    health();
+  }
+}
+
+// ---------- health ----------
+async function health() {
+  try {
+    const r = await apiFetch("/health"); const j = await r.json();
+    dot.className = "dot ok";
+    status.textContent = (j.provider || "") + " · " + j.model + " · " + (j.profile ? j.profile.label : "") +
+      (j.session ? " · s:" + j.session : "");
+    if (j.busy !== busy) setBusy(j.busy);
+  } catch (e) {
+    dot.className = "dot";
+    status.textContent = "server offline — veja ⚙ como religar";
+  }
+}
+health(); setInterval(health, 15000); connect();
+
+// ---------- enviar / cancelar ----------
+$("f").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (busy) { await apiFetch("/cancel").catch(() => {}); return; }
+  const msg = t.value.trim(); if (!msg) return;
+  t.value = ""; add("user", msg); setBusy(true);
+  try {
+    const r = await apiFetch("/chat", { method: "POST",
+      headers: { "content-type": "application/json" }, body: JSON.stringify({ message: msg }) });
+    if (!r.ok) { const j = await r.json().catch(() => ({})); add("err", "⚠ " + (j.error || r.status)); setBusy(false); }
+  } catch (err) { add("err", "⚠ server offline? " + err); setBusy(false); }
+});
+t.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("f").requestSubmit(); }
+});
+$("new").addEventListener("click", async () => {
+  await apiFetch("/new").catch(() => {});
+  log.innerHTML = ""; add("sys", "nova conversa"); health();
+});
+
+// ---------- settings ----------
+$("gear").addEventListener("click", () => {
+  $("settings").classList.toggle("open");
+  if ($("settings").classList.contains("open")) loadSettings();
+});
+async function loadSettings() {
+  try {
+    const s = await (await apiFetch("/settings")).json();
+    $("model").value = s.settings.model || "";
+    $("voiceSel").value = s.settings.voice || "principal";
+    $("imgSel").value = s.settings.image || "gemini";
+    const pv = await (await apiFetch("/providers")).json();
+    const sel = $("profSel"); sel.innerHTML = "";
+    const NAMES = { claude: "Claude", codex: "GPT (Codex)", gemini: "Gemini" };
+    for (const prov of ["claude", "codex", "gemini"]) {
+      const g = pv.providers[prov]; if (!g) continue;
+      const og = document.createElement("optgroup");
+      og.label = NAMES[prov] + (g.cli && g.cli.installed ? "" : " — CLI não instalado");
+      for (const p of g.profiles) {
+        const o = document.createElement("option");
+        o.value = p.name;
+        const tag = p.endpoint ? " · OpenRouter" + (p.model ? ":" + p.model : "") : (p.model ? " · " + p.model : "");
+        o.textContent = p.label + tag + (p.auth.loggedIn ? " ✓" + (p.auth.email ? " (" + p.auth.email + ")" : "") : " — sem login");
+        if (p.name === pv.active) o.selected = true;
+        o.dataset.cmd = p.loginCommand || "";
+        o.dataset.logged = p.auth.loggedIn ? "1" : "";
+        o.dataset.keymissing = p.keyMissing || "";
+        og.appendChild(o);
+      }
+      sel.appendChild(og);
+    }
+    showLogin();
+  } catch (e) { add("err", "⚠ settings: " + e); }
+}
+function showLogin() {
+  const o = $("profSel").selectedOptions[0]; if (!o) return;
+  $("profAuth").textContent = o.dataset.logged ? "logado" : "";
+  $("loginBox").style.display = (!o.dataset.logged && o.dataset.cmd) ? "block" : "none";
+  $("loginCmd").textContent = o.dataset.cmd || "";
+  $("keyBox").style.display = o.dataset.keymissing ? "block" : "none";
+  $("keyVar").textContent = o.dataset.keymissing || "";
+}
+$("profSel").addEventListener("change", async (e) => {
+  const name = e.target.value;
+  const r = await (await apiFetch("/profiles/use?p=" + encodeURIComponent(name))).json();
+  showLogin(); health();
+  add("sys", "conta: " + name + (r.auth && r.auth.loggedIn ? " ✓" : " — SEM LOGIN (veja ⚙)"));
+});
+$("addProf").addEventListener("click", async () => {
+  const name = $("npName").value.trim(); if (!name) return;
+  const isOR = $("npProv").value === "openrouter";
+  const model = $("npModel").value.trim();
+  if (isOR && !model) { add("err", "⚠ OpenRouter exige modelo (ex.: deepseek/deepseek-chat)"); return; }
+  const q = new URLSearchParams({
+    name, label: name,
+    provider: isOR ? "codex" : $("npProv").value,
+    authMode: isOR ? "api-key" : $("npAuth").value,
+  });
+  if (model) q.set("model", model);
+  if (isOR) q.set("endpoint", "https://openrouter.ai/api/v1");
+  const r = await (await apiFetch("/profiles/add?" + q)).json();
+  if (r.error) { add("err", "⚠ " + r.error); return; }
+  $("npName").value = ""; $("npModel").value = ""; loadSettings();
+});
+$("copyCmd").addEventListener("click", () => {
+  const txt = $("loginCmd").textContent;
+  const ta = document.createElement("textarea"); ta.value = txt; document.body.appendChild(ta);
+  ta.select(); try { document.execCommand("copy"); $("copyCmd").textContent = "copiado ✓"; } catch (e) {}
+  document.body.removeChild(ta);
+  setTimeout(() => { $("copyCmd").textContent = "copiar"; }, 2000);
+});
+$("model").addEventListener("change", async (e) => {
+  await apiFetch("/model?m=" + e.target.value).catch(() => {});
+  add("sys", "modelo: " + (e.target.value || "padrão (Max)")); health();
+});
+async function saveSetting(patch, label) {
+  await apiFetch("/settings", { method: "POST",
+    headers: { "content-type": "application/json" }, body: JSON.stringify(patch) }).catch(() => {});
+  if (label) add("sys", label); health();
+}
+$("voiceSel").addEventListener("change", (e) => saveSetting({ voice: e.target.value }, "voz: " + e.target.value));
+$("imgSel").addEventListener("change", (e) => saveSetting({ image: e.target.value }, "imagem: " + e.target.value));
+
+// ---------- abas ----------
+function tab(which) {
+  const panes = { chat: "chatPane", brief: "brief", zoom: "zoom" };
+  const tabs = { chat: "tabChat", brief: "tabBrief", zoom: "tabZoom" };
+  for (const k in panes) {
+    $(panes[k]).classList.toggle("on", k === which);
+    $(tabs[k]).classList.toggle("on", k === which);
+  }
+}
+$("tabChat").addEventListener("click", () => tab("chat"));
+$("tabBrief").addEventListener("click", () => { tab("brief"); loadBrief(); });
+$("tabZoom").addEventListener("click", () => { tab("zoom"); azLoad(); });
+
+// ---------- brief ----------
+async function loadBrief() {
+  try {
+    const r = await apiFetch("/brief");
+    if (r.status === 404) { $("briefMeta").textContent = "nenhum brief salvo para este projeto ainda"; $("briefList").innerHTML = ""; return; }
+    if (!r.ok) { $("briefMeta").textContent = "⚠ servidor/Premiere indisponível"; $("briefList").innerHTML = ""; return; }
+    renderBrief((await r.json()).data);
+  } catch (e) { $("briefMeta").textContent = "⚠ servidor/Premiere indisponível"; }
+}
+function renderBrief(data) {
+  const unmatched = Number(data.unmatched.length) || 0;
+  $("briefMeta").innerHTML = "🎯 " + esc(data.brief.tema_identificado) + " · 🎵 " + esc(data.brief.musica_global) +
+    (unmatched ? ' · <span class="warn">⚠ ' + esc(String(unmatched)) + " trecho(s) da IA sem timecode correspondente</span>" : "");
+  const list = $("briefList"); list.innerHTML = "";
+  for (const t of data.trechos) {
+    const d = document.createElement("div"); d.className = "tcard";
+    let h = '<span class="tc">▶ ' + esc(t.tcStart) + " → " + esc(t.tcEnd) + "</span>" +
+      '<div class="fala">"' + esc(t.fala) + '"</div>';
+    for (const ins of t.inserts || []) h += '<div class="sec"><span class="tag ins">insert · ' + esc(ins.tipo) + "</span>" +
+      esc(ins.descricao) + '<div class="prompt" title="clique para copiar">' + esc(ins.prompt) + "</div></div>";
+    if (t.lettering) h += '<div class="sec"><span class="tag let">lettering</span>' + esc(t.lettering) + "</div>";
+    for (const c of t.cortes || []) h += '<div class="sec"><span class="tag cut">corte</span>' + esc(c) + "</div>";
+    d.innerHTML = h; list.appendChild(d);
+    const tcEl = d.querySelector(".tc");
+    if (tcEl) tcEl.dataset.tc = t.tcStart;
+  }
+}
+// esc() output is safe only in text nodes and quoted attributes, never in unquoted attributes or JavaScript strings.
+function esc(s) {
+  const substituicoes = {
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
+  };
+  return String(s == null ? "" : s).replace(/[&<>"']/g, (caractere) => substituicoes[caractere]);
+}
+$("briefList").addEventListener("click", (e) => {
+  const tc = e.target.closest(".tc"); const pr = e.target.closest(".prompt");
+  if (tc) apiFetch("/brief/goto?tc=" + encodeURIComponent(tc.dataset.tc)).catch(() => {});
+  if (pr) { const ta = document.createElement("textarea"); ta.value = pr.textContent;
+    document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (e2) {}
+    document.body.removeChild(ta); pr.style.borderColor = "#3fb950"; setTimeout(() => pr.style.borderColor = "#333", 800); }
+});
+async function briefGenerate(payload) {
+  $("briefMeta").textContent = "gerando brief no cérebro ativo… (acompanhe o status na aba Chat)";
+  try {
+    const r = await apiFetch("/brief/generate", { method: "POST",
+      headers: { "content-type": "application/json" }, body: JSON.stringify(payload) });
+    const j = await r.json();
+    if (!r.ok) { $("briefMeta").innerHTML = '<span class="warn">⚠ ' + esc(j.error) + "</span>"; return; }
+    loadBrief();
+  } catch (e) { $("briefMeta").textContent = "falhou: " + e; }
+}
+$("briefGenT").addEventListener("click", () => briefGenerate({ source: "transcript", workspace: $("briefWs").value.trim() || undefined }));
+$("briefGenC").addEventListener("click", () => $("briefCsv").click());
+$("briefCsv").addEventListener("change", (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  const rd = new FileReader();
+  rd.onload = (ev) => briefGenerate({ source: "csv", csv: ev.target.result });
+  rd.readAsText(f); e.target.value = "";
+});
+$("briefPlant").addEventListener("click", async () => {
+  try {
+    const r = await (await apiFetch("/brief/markers", { method: "POST" })).json();
+    $("briefMeta").textContent = r.ok ? "✓ " + r.planted + " markers plantados" : "⚠ " + r.error;
+  } catch (e) { $("briefMeta").textContent = "⚠ server offline? " + e; }
+});
+$("briefClear").addEventListener("click", async () => {
+  try {
+    const r = await (await apiFetch("/brief/markers/clear", { method: "POST" })).json();
+    $("briefMeta").textContent = r.ok ? "✓ " + r.removed + " markers do brief removidos" : "⚠ " + r.error;
+  } catch (e) { $("briefMeta").textContent = "⚠ server offline? " + e; }
+});
+
+// ---------- auto zoom ----------
+async function azLoad() {
+  try {
+    const s = await (await apiFetch("/autozoom")).json();
+    if (s.error) { $("azStatus").textContent = "⚠ " + s.error; return; }
+    $("azCamLabel").textContent = s.camera ? "🎯 " + s.camera.name : "nenhuma câmera definida";
+    const box = $("azPresets"); box.innerHTML = "";
+    for (const p of s.presets) {
+      const d = document.createElement("div"); d.className = "tcard";
+      const b = document.createElement("b"); b.textContent = p.id; d.appendChild(b);
+      d.appendChild(document.createTextNode(" · scale "));
+      const inp = document.createElement("input");
+      inp.type = "number"; inp.step = "0.1"; inp.value = p.scale;
+      inp.className = "azScale"; inp.dataset.id = p.id;
+      inp.style.cssText = "width:64px;background:#222;color:#ddd;border:1px solid #444;border-radius:4px;";
+      d.appendChild(inp);
+      d.appendChild(document.createTextNode(" · pos " +
+        (p.position ? p.position.map((n) => Math.abs(n) <= 1 ? n.toFixed(2) : Math.round(n)).join(",") : "atual") + " "));
+      const del = document.createElement("button"); del.className = "azDel"; del.textContent = "excluir";
+      del.dataset.id = p.id;
+      d.appendChild(del);
+      box.appendChild(d);
+    }
+    $("azPush").textContent = s.push
+      ? "start " + s.push.start.scale + " → end " + s.push.end.scale + " (sentido alterna a cada aplicação)"
+      : "sem push — cortes longos ficam intocados";
+  } catch (e) { $("azStatus").textContent = "server offline?"; }
+}
+async function azPost(pathname, body) {
+  const r = await apiFetch(pathname, { method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify(body || {}) });
+  const j = await r.json();
+  if (!r.ok || j.error) { $("azStatus").textContent = "⚠ " + (j.error || r.status); return null; }
+  return j;
+}
+$("azCam").addEventListener("click", async () => { if (await azPost("/autozoom/camera")) azLoad(); });
+$("azLearn").addEventListener("click", async () => { if (await azPost("/autozoom/presets/learn")) azLoad(); });
+$("azPresets").addEventListener("change", async (e) => {
+  if (e.target.classList.contains("azScale"))
+    if (await azPost("/autozoom/presets/update", { id: e.target.dataset.id, scale: Number(e.target.value) })) azLoad();
+});
+$("azPresets").addEventListener("click", async (e) => {
+  if (e.target.classList.contains("azDel"))
+    if (await azPost("/autozoom/presets/delete", { id: e.target.dataset.id })) azLoad();
+});
+$("azPushLearn").addEventListener("click", async () => { if (await azPost("/autozoom/push/learn")) azLoad(); });
+$("azPushDel").addEventListener("click", async () => { if (await azPost("/autozoom/push/delete")) azLoad(); });
+$("azAnalyze").addEventListener("click", async () => {
+  try { const j = await (await apiFetch("/autozoom/analyze")).json();
+    $("azStatus").textContent = j.ok ? "🎯 " + j.totalCuts + " cortes da câmera-alvo · " + j.statics +
+      " estáticos · " + j.pushes + " pushes · " + j.skips + " pulados" : "⚠ " + j.error;
+  } catch (e) { $("azStatus").textContent = "⚠ " + e; }
+});
+// apply pode levar minutos de ES — trava os dois botões em voo (duplo clique morre aqui e no busy do server)
+function azButtons(disabled) { $("azApply").disabled = disabled; $("azRedo").disabled = disabled; }
+$("azApply").addEventListener("click", async () => {
+  azButtons(true);
+  try {
+    const j = await azPost("/autozoom/apply", {});
+    if (j) $("azStatus").textContent = "✓ " + j.applied + " aplicados · " + j.skipped + " pulados · " + j.errors + " erros";
+  } finally { azButtons(false); }
+});
+$("azRedo").addEventListener("click", async () => {
+  azButtons(true);
+  try {
+    const j = await azPost("/autozoom/apply", { redo: true });
+    if (j) $("azStatus").textContent = "✓ refeito: " + j.applied + " aplicados · " + j.skipped + " pulados";
+  } finally { azButtons(false); }
+});
+</script>
+<div class="small" style="text-align:center;opacity:.6;padding:6px 0;">Criado por Bruno Correa</div>
+</body>
+</html>

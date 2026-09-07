@@ -1,0 +1,11 @@
+{
+  "words": [
+    { "start": 0.2, "end": 0.6, "word": " Bruno" },
+    { "start": 0.6, "end": 1.0, "word": " primeiro" },
+    { "start": 1.0, "end": 1.5, "word": " short" }
+  ],
+  "width": 3840,
+  "height": 2160,
+  "fontSize": 120,
+  "baselineY": 0.9
+}

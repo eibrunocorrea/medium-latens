@@ -1,0 +1,22 @@
+{
+  "__doc": "Registro F6 de gen-AI (voz + imagem). Só nomes e ids; segredos vivem no .env do usuário.",
+  "voice": {
+    "default": "principal",
+    "engine": "elevenlabs",
+    "voices": {
+      "principal": { "voice_id_env": "ELEVENLABS_VOICE_PRINCIPAL", "note": "voz principal" },
+      "cloud": { "voice_id_env": "ELEVENLABS_VOICE_CLOUD", "note": "voz alternativa" }
+    },
+    "models": ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5"],
+    "default_model": "eleven_flash_v2_5",
+    "cli": "genai/voice.mjs"
+  },
+  "image": {
+    "default": "gemini",
+    "providers": ["gemini", "bfl", "openai", "cloudflare"],
+    "delegates_to": "env:MEDIUM_LATENS_IMAGE_PIPELINE",
+    "task": "scene",
+    "cli": "genai/image.mjs",
+    "note": "openai (gpt-image-1) está fora das rotas do pipeline configurado porque bloqueia produto de marca."
+  }
+}

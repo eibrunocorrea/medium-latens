@@ -1,0 +1,74 @@
+{
+ "words": [
+  {
+   "start": 761.1,
+   "end": 761.22,
+   "word": "Vamos"
+  },
+  {
+   "start": 761.22,
+   "end": 761.4,
+   "word": "ver"
+  },
+  {
+   "start": 761.4,
+   "end": 761.52,
+   "word": "se"
+  },
+  {
+   "start": 761.52,
+   "end": 761.66,
+   "word": "vai"
+  },
+  {
+   "start": 761.66,
+   "end": 761.76,
+   "word": "dar"
+  },
+  {
+   "start": 761.76,
+   "end": 761.94,
+   "word": "bom"
+  },
+  {
+   "start": 761.94,
+   "end": 762.06,
+   "word": "no"
+  },
+  {
+   "start": 762.06,
+   "end": 762.24,
+   "word": "pull."
+  },
+  {
+   "start": 762.3,
+   "end": 762.68,
+   "word": "Último"
+  },
+  {
+   "start": 762.68,
+   "end": 763.1,
+   "word": "pack."
+  },
+  {
+   "start": 763.94,
+   "end": 764.4,
+   "word": "Charizard"
+  },
+  {
+   "start": 764.4,
+   "end": 764.62,
+   "word": "não"
+  },
+  {
+   "start": 764.62,
+   "end": 764.78,
+   "word": "me"
+  }
+ ],
+ "timeOffsetSeconds": 761.1,
+ "tailSeconds": 0.4,
+ "width": 3840,
+ "height": 2160,
+ "preset": "mkbhd"
+}

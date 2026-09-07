@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: "Security vulnerability / Vulnerabilidade de segurança"
+    url: https://github.com/eibrunocorrea/medium-latens/security/policy
+    about: "Private report, never a public issue / Reporte privado, nunca issue pública"

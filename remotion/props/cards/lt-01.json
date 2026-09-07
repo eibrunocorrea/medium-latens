@@ -1,0 +1,12 @@
+{
+ "name": "Pokédex",
+ "subtitle": "UNCOMMON",
+ "durationInSeconds": 2.0,
+ "accentColor": "#5AC8FA",
+ "barColor": "#111111",
+ "x": 0.08,
+ "y": 0.8,
+ "scale": 1,
+ "width": 1080,
+ "height": 1920
+}

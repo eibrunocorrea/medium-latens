@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ExtensionManifest ExtensionBundleId="com.brunocorrea.mediumlatens" ExtensionBundleVersion="1.0.0"
+  ExtensionBundleName="Medium Latens" Version="7.0">
+  <ExtensionList>
+    <Extension Id="com.brunocorrea.mediumlatens.panel" Version="0.1.0"/>
+  </ExtensionList>
+  <ExecutionEnvironment>
+    <HostList>
+      <Host Name="PPRO" Version="[22.0,99.9]"/>
+    </HostList>
+    <LocaleList><Locale Code="All"/></LocaleList>
+    <RequiredRuntimeList><RequiredRuntime Name="CSXS" Version="9.0"/></RequiredRuntimeList>
+  </ExecutionEnvironment>
+  <DispatchInfoList>
+    <Extension Id="com.brunocorrea.mediumlatens.panel">
+      <DispatchInfo>
+        <Resources>
+          <MainPath>./index.html</MainPath>
+          <CEFCommandLine>
+            <!-- Node is required by the token reader fallback; the panel CSP limits scripts and network access. -->
+            <Parameter>--enable-nodejs</Parameter>
+          </CEFCommandLine>
+        </Resources>
+        <Lifecycle><AutoVisible>true</AutoVisible></Lifecycle>
+        <UI>
+          <Type>Panel</Type>
+          <Menu>Medium Latens</Menu>
+          <Geometry>
+            <Size><Height>500</Height><Width>340</Width></Size>
+            <MinSize><Height>300</Height><Width>260</Width></MinSize>
+          </Geometry>
+        </UI>
+      </DispatchInfo>
+    </Extension>
+  </DispatchInfoList>
+</ExtensionManifest>

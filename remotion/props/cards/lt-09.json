@@ -1,0 +1,12 @@
+{
+ "name": "Wigglytuff",
+ "subtitle": "HOLO RARE",
+ "durationInSeconds": 3.0,
+ "accentColor": "#FFD60A",
+ "barColor": "#111111",
+ "x": 0.08,
+ "y": 0.8,
+ "scale": 1,
+ "width": 1080,
+ "height": 1920
+}

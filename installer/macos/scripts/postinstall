@@ -1,0 +1,6 @@
+#!/bin/bash
+# Medium Latens: pós-instalação do .pkg. Roda como root; o bootstrap cai para o usuário sozinho.
+set -uo pipefail
+ALVO="${3:-/}"
+APP="${ALVO%/}/Applications/Medium Latens"
+exec /bin/bash "$APP/installer/bootstrap.sh" "$APP"

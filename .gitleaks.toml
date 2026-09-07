@@ -1,0 +1,14 @@
+# Medium Latens: configuração do gitleaks.
+# O allowlist é deliberadamente pequeno. Cada entrada diz por que existe.
+title = "Medium Latens"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Fixtures de teste: chaves falsas montadas para exercitar a redação de segredos"
+paths = ['''^test/''']
+
+[[allowlists]]
+description = "Identificador público do app na coleta: filtro de ruído no receptor, não é segredo (spec 2026-09-06, seção 6.1)"
+regexes = ['''ed6d78c70b7690ab9dfe91d3927689d6''']

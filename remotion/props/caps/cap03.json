@@ -1,0 +1,74 @@
+{
+ "words": [
+  {
+   "start": 560.7,
+   "end": 561.14,
+   "word": "O"
+  },
+  {
+   "start": 561.14,
+   "end": 561.56,
+   "word": "Froakie"
+  },
+  {
+   "start": 561.56,
+   "end": 561.9,
+   "word": "Shine"
+  },
+  {
+   "start": 561.9,
+   "end": 562.1,
+   "word": "é"
+  },
+  {
+   "start": 562.1,
+   "end": 562.16,
+   "word": "um"
+  },
+  {
+   "start": 562.16,
+   "end": 562.42,
+   "word": "hit."
+  },
+  {
+   "start": 562.48,
+   "end": 562.58,
+   "word": "A"
+  },
+  {
+   "start": 562.58,
+   "end": 562.68,
+   "word": "gente"
+  },
+  {
+   "start": 562.68,
+   "end": 562.94,
+   "word": "não"
+  },
+  {
+   "start": 562.94,
+   "end": 563.22,
+   "word": "saiu"
+  },
+  {
+   "start": 563.22,
+   "end": 563.34,
+   "word": "de"
+  },
+  {
+   "start": 563.34,
+   "end": 563.5,
+   "word": "mão"
+  },
+  {
+   "start": 563.5,
+   "end": 564.0,
+   "word": "abanando"
+  }
+ ],
+ "timeOffsetSeconds": 560.36,
+ "tailSeconds": 0.4,
+ "width": 3840,
+ "height": 2160,
+ "preset": "mkbhd"
+}

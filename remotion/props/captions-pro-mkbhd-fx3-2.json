@@ -1,0 +1,104 @@
+{
+  "words": [
+    {
+      "start": 40.3,
+      "end": 40.5,
+      "word": " fazer"
+    },
+    {
+      "start": 40.5,
+      "end": 40.58,
+      "word": " uma"
+    },
+    {
+      "start": 40.58,
+      "end": 40.8,
+      "word": " ação"
+    },
+    {
+      "start": 40.8,
+      "end": 41.26,
+      "word": " melhor."
+    },
+    {
+      "start": 42.06,
+      "end": 42.4,
+      "word": " Não"
+    },
+    {
+      "start": 42.4,
+      "end": 42.56,
+      "word": " tem"
+    },
+    {
+      "start": 42.56,
+      "end": 42.96,
+      "word": " como."
+    },
+    {
+      "start": 43.32,
+      "end": 43.46,
+      "word": " Não"
+    },
+    {
+      "start": 43.46,
+      "end": 43.58,
+      "word": " tem"
+    },
+    {
+      "start": 43.58,
+      "end": 43.92,
+      "word": " como."
+    },
+    {
+      "start": 46.42,
+      "end": 46.94,
+      "word": " É"
+    },
+    {
+      "start": 46.94,
+      "end": 47.14,
+      "word": " que"
+    },
+    {
+      "start": 47.14,
+      "end": 47.2,
+      "word": " eu"
+    },
+    {
+      "start": 47.2,
+      "end": 47.34,
+      "word": " tô"
+    },
+    {
+      "start": 47.34,
+      "end": 47.54,
+      "word": " meio"
+    },
+    {
+      "start": 47.54,
+      "end": 48.12,
+      "word": " silva."
+    },
+    {
+      "start": 56.8,
+      "end": 57.32,
+      "word": " Deixa"
+    },
+    {
+      "start": 57.32,
+      "end": 57.5,
+      "word": " eu"
+    },
+    {
+      "start": 57.5,
+      "end": 57.74,
+      "word": " ver."
+    }
+  ],
+  "width": 2160,
+  "height": 3840,
+  "timeOffsetSeconds": 40,
+  "tailSeconds": 0.5,
+  "preset": "mkbhd"
+}

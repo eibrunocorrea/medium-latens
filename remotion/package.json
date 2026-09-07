@@ -1,0 +1,23 @@
+{
+  "name": "medium-latens-overlays",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remotion overlays (ProRes 4444 alpha) for Medium Latens — captions, lower thirds, text animations, transitions, tracked overlays",
+  "scripts": {
+    "studio": "remotion studio",
+    "render": "remotion render"
+  },
+  "dependencies": {
+    "@remotion/captions": "4.0.499",
+    "@remotion/cli": "4.0.499",
+    "@remotion/zod-types": "4.0.499",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "remotion": "4.0.499",
+    "zod": "3.22.3"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.13",
+    "typescript": "5.9.3"
+  }
+}

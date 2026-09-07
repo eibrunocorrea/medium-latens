@@ -1,0 +1,14 @@
+{
+  "value": 700,
+  "prefix": "R$ ",
+  "suffix": "",
+  "countFrames": 20,
+  "width": 3840,
+  "height": 2160,
+  "durationInSeconds": 2.4,
+  "fontSize": 210,
+  "color": "#FFFFFF",
+  "accentColor": "#FFCB05",
+  "x": 0.175,
+  "y": 0.30
+}

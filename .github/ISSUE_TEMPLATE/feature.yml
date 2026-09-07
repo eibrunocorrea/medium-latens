@@ -1,0 +1,21 @@
+name: "Feature / Funcionalidade"
+description: "Propose something new / Propor algo novo"
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problema
+    attributes:
+      label: "Problem / Problema"
+      description: "What are you trying to do in the edit that the assistant does not handle? / O que você tenta fazer na edição que o assistente não resolve?"
+    validations:
+      required: true
+  - type: textarea
+    id: proposta
+    attributes:
+      label: "Proposal / Proposta"
+    validations:
+      required: true
+  - type: textarea
+    id: alternativas
+    attributes:
+      label: "Alternatives considered / Alternativas consideradas"

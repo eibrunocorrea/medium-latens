@@ -1,0 +1,64 @@
+{
+ "words": [
+  {
+   "start": 586.74,
+   "end": 586.88,
+   "word": "vou"
+  },
+  {
+   "start": 586.88,
+   "end": 587.02,
+   "word": "pro"
+  },
+  {
+   "start": 587.02,
+   "end": 587.4,
+   "word": "Mewtwo"
+  },
+  {
+   "start": 587.4,
+   "end": 587.7,
+   "word": "Shine"
+  },
+  {
+   "start": 587.7,
+   "end": 587.98,
+   "word": "em"
+  },
+  {
+   "start": 587.98,
+   "end": 588.3,
+   "word": "seguida,"
+  },
+  {
+   "start": 588.34,
+   "end": 588.54,
+   "word": "porque"
+  },
+  {
+   "start": 588.54,
+   "end": 588.7,
+   "word": "o"
+  },
+  {
+   "start": 588.7,
+   "end": 589.14,
+   "word": "Mewtwo"
+  },
+  {
+   "start": 589.14,
+   "end": 589.68,
+   "word": "Shine"
+  },
+  {
+   "start": 589.68,
+   "end": 590.16,
+   "word": "é"
+  }
+ ],
+ "timeOffsetSeconds": 586.2,
+ "tailSeconds": 0.4,
+ "width": 3840,
+ "height": 2160,
+ "preset": "mkbhd"
+}

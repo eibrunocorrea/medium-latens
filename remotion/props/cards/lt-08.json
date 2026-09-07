@@ -1,0 +1,12 @@
+{
+ "name": "Potion",
+ "subtitle": "COMMON",
+ "durationInSeconds": 2.0,
+ "accentColor": "#FFFFFF",
+ "barColor": "#111111",
+ "x": 0.08,
+ "y": 0.8,
+ "scale": 1,
+ "width": 1080,
+ "height": 1920
+}

@@ -1,0 +1,59 @@
+{
+ "words": [
+  {
+   "start": 161.12,
+   "end": 161.3,
+   "word": "se"
+  },
+  {
+   "start": 161.3,
+   "end": 161.38,
+   "word": "é"
+  },
+  {
+   "start": 161.38,
+   "end": 161.46,
+   "word": "um"
+  },
+  {
+   "start": 161.46,
+   "end": 161.86,
+   "word": "novo."
+  },
+  {
+   "start": 162.26,
+   "end": 162.66,
+   "word": "Vamos"
+  },
+  {
+   "start": 162.66,
+   "end": 162.98,
+   "word": "lá,"
+  },
+  {
+   "start": 163.22,
+   "end": 163.48,
+   "word": "vamos"
+  },
+  {
+   "start": 163.48,
+   "end": 163.8,
+   "word": "ver,"
+  },
+  {
+   "start": 163.96,
+   "end": 164.26,
+   "word": "vamos"
+  },
+  {
+   "start": 164.26,
+   "end": 164.64,
+   "word": "ver."
+  }
+ ],
+ "timeOffsetSeconds": 161.06,
+ "tailSeconds": 0.4,
+ "width": 3840,
+ "height": 2160,
+ "preset": "mkbhd"
+}
