@@ -1,25 +1,50 @@
+<div align="center">
+
 # Medium Latens
 
-English version: [README.md](README.md).
+**Um editor assistente que vive dentro do Adobe Premiere Pro.**
 
-[![CI](https://github.com/eibrunocorrea/medium-latens/actions/workflows/ci.yml/badge.svg)](https://github.com/eibrunocorrea/medium-latens/actions/workflows/ci.yml) [![Segurança](https://github.com/eibrunocorrea/medium-latens/actions/workflows/seguranca.yml/badge.svg)](https://github.com/eibrunocorrea/medium-latens/actions/workflows/seguranca.yml)
+Você descreve a edição. Ele trabalha na sequência aberta, um passo visível de cada vez. Quem edita continua sendo você.
 
-O Medium Latens é um editor assistente que trabalha dentro do Adobe Premiere Pro. Você conversa com ele num painel e ele executa na sua timeline: corta, move e rotula, monta o Brief Criativo como markers coloridos e aplica Auto Zoom em sequências multicam.
+[![CI](https://github.com/eibrunocorrea/medium-latens/actions/workflows/ci.yml/badge.svg)](https://github.com/eibrunocorrea/medium-latens/actions/workflows/ci.yml)
+[![Segurança](https://github.com/eibrunocorrea/medium-latens/actions/workflows/seguranca.yml/badge.svg)](https://github.com/eibrunocorrea/medium-latens/actions/workflows/seguranca.yml)
+[![Licença: AGPL-3.0](https://img.shields.io/badge/licen%C3%A7a-AGPL--3.0-blue)](LICENSE)
+[![Estado: alpha](https://img.shields.io/badge/estado-alpha-orange)](#estado)
+
+English version: [README.md](README.md)
+
+</div>
+
+> [!WARNING]
+> Isto é uma alpha, feita por um desenvolvedor independente que ainda está aprendendo. Tem bugs de verdade, alguns vão morder, e algumas funções só funcionam numa plataforma. Leia [Estado](#estado) antes de instalar e abra uma issue quando algo quebrar.
 
 Criado por Bruno Correa. Software livre sob a [AGPL-3.0](LICENSE).
 
-## Estado
-
-Alpha. A versão `0.1.0-alpha.1` está em preparação. Os instaladores para macOS e Windows serão publicados na página de Releases; até lá, rode a partir do fonte (abaixo). A alpha coleta dados de uso conforme os [termos de uso](TERMOS.md).
-
-Limitações conhecidas desta alpha: a transcrição do motor opcional só roda em Macs Apple Silicon (o caminho para Windows e Intel ainda não está ligado); no Windows ARM64 as ferramentas de mídia rodam sob emulação x64; o instalador guarda as ferramentas de linha de comando de IA numa pasta própria (`~/.medium-latens/npm/bin` ou `%APPDATA%\Medium Latens\npm`) e não as adiciona ao seu shell no macOS.
-
 ## O que ele faz
 
-- **Edição por prompt.** Peça em linguagem natural; o assistente planeja e executa na sequência aberta pela ponte de scripting do Premiere, mostrando cada chamada de ferramenta enquanto acontece.
-- **Brief Criativo.** A partir da transcrição da sua narração ele propõe um plano por trecho e planta isso como markers coloridos na timeline, para a edição seguir a história.
-- **Auto Zoom em multicam.** Detecta momentos que merecem ênfase e aplica zooms dinâmicos com tracking, seguindo as regras de edição gravadas nos presets.
-- **Motor opcional.** Um motor Python transcreve, corrige a transcrição com o seu glossário, propõe cortes e gera FCPXML; geradores de imagem e voz entram com as suas próprias chaves de API.
+| Recurso | O que acontece |
+|---|---|
+| **Edição por prompt** | Peça em linguagem natural. O assistente planeja, executa na sequência aberta pela ponte de scripting do Premiere e mostra cada chamada de ferramenta enquanto acontece. |
+| **Brief Criativo** | A partir da transcrição da sua narração ele propõe um plano por trecho e planta isso como markers coloridos na timeline, para o corte seguir a história. |
+| **Auto Zoom em multicam** | Encontra os momentos que merecem ênfase e aplica zooms dinâmicos com tracking, seguindo as regras de edição guardadas nos seus presets. |
+| **Motor opcional** | Um motor Python transcreve, corrige a transcrição com o seu glossário, propõe cortes e gera FCPXML. Geradores de imagem e voz entram com as suas próprias chaves de API. |
+
+## Princípios
+
+- **Quem edita é você.** Nada roda sem você pedir, e cada ação é uma chamada de ferramenta que dá para acompanhar. O assistente faz a parte mecânica; o gosto, a história e a última palavra são seus.
+- **Feito para o seu nicho.** Presets, regras e glossários existem para serem ajustados ao seu jeito de editar. A meta é ajudar o seu tipo de edição, não picar todo vídeo em frases de impacto.
+- **Local antes de tudo.** O servidor só escuta na sua máquina, mídia nunca sai dela, e tudo que é seu fica na sua pasta de usuário.
+
+## Estado
+
+A versão `0.1.0-alpha.1` está em preparação. Os instaladores para macOS e Windows serão publicados na página de Releases; até lá, rode a partir do fonte. A alpha coleta dados de uso conforme os [termos de uso](TERMOS.md).
+
+Limitações conhecidas:
+
+- A transcrição do motor opcional só roda em Macs Apple Silicon; o caminho para Windows e Intel ainda não está ligado.
+- No Windows ARM64 as ferramentas de mídia rodam sob emulação x64.
+- O instalador guarda as ferramentas de linha de comando de IA numa pasta própria (`~/.medium-latens/npm/bin` ou `%APPDATA%\Medium Latens\npm`) e não as adiciona ao seu shell no macOS.
+- Muita coisa ainda precisa de conserto antes de ficar confortável para o dia a dia. A [página de issues](https://github.com/eibrunocorrea/medium-latens/issues) é a lista honesta.
 
 ## Requisitos
 
@@ -29,27 +54,37 @@ Limitações conhecidas desta alpha: a transcrição do motor opcional só roda 
 
 ## Instalação
 
-**Instalador oficial (em breve):** baixe o `.pkg` ou o `.exe` na página de Releases e execute. O instalador resolve o Node.js, o painel do Premiere, o serviço de fundo e o motor opcional, passo a passo, com uma página de status que você abre a qualquer momento. Os instaladores ainda não são assinados; a primeira abertura pede confirmação ("Abrir mesmo assim" no macOS, "Executar assim mesmo" no Windows).
+### Instalador oficial (em breve)
 
-**A partir do fonte:**
+Baixe o `.pkg` ou o `.exe` na página de Releases e execute. O instalador resolve o Node.js, o painel do Premiere, o serviço de fundo e o motor opcional, passo a passo, com uma página de status que você abre a qualquer momento. Os instaladores ainda não são assinados; a primeira abertura pede confirmação ("Abrir mesmo assim" no macOS, "Executar assim mesmo" no Windows).
+
+### A partir do fonte
 
 ```sh
 git clone https://github.com/eibrunocorrea/medium-latens.git
 cd medium-latens
 node --test test/*.test.js
-bash installer/bootstrap.sh "$PWD"          # macOS; no Windows: powershell -ExecutionPolicy Bypass -File installer\bootstrap.ps1 -AppDir "$PWD"
+bash installer/bootstrap.sh "$PWD"
+```
+
+No Windows, a última linha é:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File installer\bootstrap.ps1 -AppDir "$PWD"
 ```
 
 Detalhes, inclusive como desligar a coleta de uso num build do fonte, em [CONTRIBUTING.pt-BR.md](CONTRIBUTING.pt-BR.md).
 
 ## Como funciona
 
-1. Um painel CEP dentro do Premiere fala com um servidor local em `127.0.0.1:8765`, autenticado por um token que vive na sua pasta de usuário.
-2. O servidor roda o turno do assistente pela CLI do seu provedor (Claude, Codex ou Gemini) e devolve o resultado em fluxo, por server-sent events.
-3. As chamadas de ferramenta chegam ao Premiere por uma ponte de scripting; as alterações na timeline são registradas para o resumo da sessão.
-4. O motor Python (transcrição, cortes, FCPXML) e o módulo Remotion (motion graphics) são opcionais e vivem fora do processo do servidor.
-5. Os arquivos do programa ficam na pasta da aplicação; tudo que é seu (chaves, configurações, workspaces, fila) fica na pasta de usuário, que atualização e desinstalação nunca tocam.
-6. Os eventos de uso vão para uma fila local que você pode ler, e são enviados em lotes. Veja abaixo.
+| Peça | Onde roda | O que faz |
+|---|---|---|
+| Painel CEP | Dentro do Premiere | Abas de Chat, Brief Criativo e Auto Zoom. Fala com o servidor local usando um token por instalação, guardado na sua pasta de usuário. |
+| Servidor local | `127.0.0.1:8765` | Roda o turno do assistente pela CLI do seu provedor (Claude, Codex ou Gemini) e devolve o resultado em fluxo, por server-sent events. |
+| Ponte de scripting | Premiere | Executa as chamadas de ferramenta na sequência aberta e registra as alterações da timeline para o resumo da sessão. |
+| Motor Python | Sua máquina, opcional | Transcrição, correção por glossário, propostas de corte, FCPXML. |
+| Módulo Remotion | Sua máquina, opcional | Motion graphics. |
+| Pasta de usuário | Sua máquina | Chaves, configurações, workspaces e a fila de uso. Atualização e desinstalação nunca tocam nela. |
 
 ## Coleta de uso e privacidade
 
@@ -63,7 +98,15 @@ Texto completo: [TERMOS.md](TERMOS.md) (versão que governa) e [docs/coleta.md](
 
 ## Origem
 
-O Medium Latens descende do AutoCutClone, uma ferramenta de cortes, e de um assistente de edição pessoal que Bruno Correa construiu para o próprio canal do YouTube entre 2025 e 2026, para dar conta de um acervo de centenas de vídeos gravados. Em agosto de 2026 o assistente foi extraído para este produto independente: isolado de qualquer dado pessoal, endurecido com token local e redação de segredos, com instaladores para os dois sistemas e um programa de coleta de uso para aprender com o jeito real de editar. O [CHANGELOG](CHANGELOG.md) conta essa história fase a fase.
+O Medium Latens nasceu numa mesa de edição, não num laboratório.
+
+Bruno Correa grava mais do que consegue editar. Em algum momento a pilha de vídeos sem edição passou de algumas centenas, e a pergunta mudou. Deixou de ser "como eu edito mais rápido" e virou "quanto desse trabalho precisa mesmo de mim". A resposta honesta: o gosto, a história e a escolha do que fica precisam de um editor. Tirar silêncio, caçar o segundo em que o convidado ri, colocar o vigésimo zoom numa carta sendo virada: isso não.
+
+Então ele construiu um assistente para si mesmo. Uma coisa que vive dentro do Premiere, entende a sequência que está aberta, faz a parte mecânica quando pedem e mostra cada passo, para o editor ficar com a última palavra. Ele cortou os vídeos do próprio canal por um ano. Em 2026 saiu do fluxo pessoal, perdeu tudo que era do autor e veio parar aqui, para que outros editores possam usar, quebrar e melhorar.
+
+A intenção não mudou. O Medium Latens não está aqui para substituir um editor, e nem tenta. Ele existe para dar liberdade e acessibilidade a quem já edita: devolver as noites, transformar um corte de dois dias num corte de um dia, deixar uma equipe pequena render como uma grande. Ferramentas que só picam o vídeo em frases de impacto deixam todo canal com a mesma cara. Esta foi feita para ser ajustada a nichos diferentes, cada um com as suas regras de edição, para ajudar o seu jeito de trabalhar em vez de impor um.
+
+É também, sem rodeio, o trabalho de um desenvolvedor independente com pouca experiência, aprendendo em público. Tem bugs, e alguns vão dar vergonha. Se você achar um, abrir uma issue é a coisa mais gentil que dá para fazer. O [CHANGELOG](CHANGELOG.md) conta como ele foi construído até aqui.
 
 ## Como contribuir
 

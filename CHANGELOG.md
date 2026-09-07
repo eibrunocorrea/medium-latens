@@ -43,3 +43,5 @@ All notable changes to Medium Latens are documented here. The format follows [Ke
 - Security review before the first push: seven surfaces reviewed independently; the local server survives malformed requests and validates Host and Origin; child processes get an allowlisted environment; secret redaction gained format rules, webhook hosts, a randomness heuristic and neighborhood redaction; the panel got a Content Security Policy; the installers no longer run npm as root, pin every package, verify ffmpeg by SHA-256 and never write to user folders as root.
 - Remotion module dependencies updated to clear three high-severity advisories.
 - CI and security badges in the README.
+- README rewritten around the project's intent: an assistant for people who already edit, tuned per niche, built by an independent developer; the Origins section tells that story, and the layout uses tables and alerts that render on GitHub.
+- Panel header shows the product version, read from `VERSION` through `/health`; the CEP bundle version follows the same number.
