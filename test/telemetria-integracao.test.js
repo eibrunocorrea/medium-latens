@@ -46,9 +46,11 @@ function carregarHandler(sobrescritas = {}) {
     auth: require("../lib/auth"),
     telemetria: tel,
     statusPage: {
+      readVersion: require("../lib/status").readVersion,
       renderStatusPage: async () => "<html>Status do Medium Latens</html>",
       renderErrorPage: () => "<html>erro</html>",
     },
+    APP_DIR: require("../lib/paths").APP_DIR,
     TOKEN,
     settings: {
       load: () => ({ profile: "default", provider: "falso", model: "" }),
