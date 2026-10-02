@@ -153,6 +153,9 @@ def duration_of(mp3: Path) -> float:
 
 
 def main() -> None:
+    for stream in (sys.stdout, sys.stderr):  # Windows: console cp1252 não codifica "→" (CI #13)
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser(description="Narração de eventos de carta do usuário")
     ap.add_argument("cards_json")
     ap.add_argument("--style", default="empolgado")
