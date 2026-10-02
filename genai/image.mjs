@@ -73,8 +73,8 @@ if (provider && !PROVIDERS.includes(provider)) {
   process.exit(2);
 }
 if (provider === 'openai') {
-  // Decisão registrada no providers.config.json do pipeline (teste real 2026-07-22):
-  // gpt-image-1 bloqueia produto de marca (Pokémon) e foi removido de todas as rotas.
+  // A rota OpenAI continua desabilitada após bloqueios de produto de marca (Pokémon).
+  // O catálogo agora referencia gpt-image-2; a decisão de roteamento permanece.
   // O roteador não o escolhe. Forçá-lo exigiria alterar a configuração do pipeline.
   console.error('provider "openai" está fora das rotas do pipeline configurado. ' +
     'Use gemini | bfl | cloudflare, ou reative openai na rota "scene" do providers.config.json do pipeline.');

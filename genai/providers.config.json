@@ -7,7 +7,7 @@
       "principal": { "voice_id_env": "ELEVENLABS_VOICE_PRINCIPAL", "note": "voz principal" },
       "cloud": { "voice_id_env": "ELEVENLABS_VOICE_CLOUD", "note": "voz alternativa" }
     },
-    "models": ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5"],
+    "models": ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5", "eleven_v4", "eleven_v4_turbo"],
     "default_model": "eleven_flash_v2_5",
     "cli": "genai/voice.mjs"
   },
@@ -17,6 +17,6 @@
     "delegates_to": "env:MEDIUM_LATENS_IMAGE_PIPELINE",
     "task": "scene",
     "cli": "genai/image.mjs",
-    "note": "openai (gpt-image-1) está fora das rotas do pipeline configurado porque bloqueia produto de marca."
+    "note": "openai (gpt-image-2) continua fora das rotas do pipeline configurado após bloqueios de produto de marca; atualizar o catálogo não reativa a rota."
   }
 }
