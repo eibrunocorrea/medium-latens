@@ -9,6 +9,10 @@ updates:
     directory: /engine
     schedule:
       interval: weekly
+    ignore:
+      # numpy 2.3+ exige Python 3.11; o engine promete Python 3.10 (engine/requirements.txt).
+      - dependency-name: numpy
+        versions: [">=2.3"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
