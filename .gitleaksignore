@@ -1,0 +1,16 @@
+# Falsos positivos da varredura agendada (histórico inteiro): chaves sintéticas de teste
+# em test/status.test.js, montadas para exercitar a redação de segredos (commit 91925fc).
+# O allowlist de caminho do .gitleaks.toml não cobre a varredura de histórico da action.
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:240
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:242
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:243
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:244
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:261
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:316
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:318
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:319
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:320
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:344
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:345
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:346
+91925fcc32f5cdb761176a8de3606684e1038e19:test/status.test.js:generic-api-key:347
