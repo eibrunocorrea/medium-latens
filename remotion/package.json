@@ -8,16 +8,19 @@
     "render": "remotion render"
   },
   "dependencies": {
-    "@remotion/captions": "4.0.499",
-    "@remotion/cli": "4.0.499",
-    "@remotion/zod-types": "4.0.499",
+    "@remotion/captions": "4.0.538",
+    "@remotion/cli": "4.0.538",
+    "@remotion/zod-types": "4.0.538",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "remotion": "4.0.499",
-    "zod": "3.22.3"
+    "remotion": "4.0.538",
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@types/react": "^19.2.13",
     "typescript": "5.9.3"
+  },
+  "overrides": {
+    "zod": "4.6.7"
   }
 }
