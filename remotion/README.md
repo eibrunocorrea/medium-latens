@@ -1,7 +1,7 @@
 # Remotion Overlays — Medium Latens
 
 Renders transparent overlays (ProRes 4444 **with alpha**) to import on top of footage in Premiere.
-Remotion 4.0.499, React 19, fps fixed at 30. `remotion.config.ts` already defaults to
+Remotion 4.0.538, Zod 4.6.7, React 19, fps fixed at 30. `remotion.config.ts` already defaults to
 `prores/4444/yuva444p10le/png`, but the explicit flags below always work.
 
 ```bash
