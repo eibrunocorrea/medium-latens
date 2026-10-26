@@ -3,7 +3,7 @@
 //
 // Uso:
 //   node genai/voice.mjs "<texto>" [--voice principal|cloud|<voice_id>]
-//        [--model eleven_v3|eleven_multilingual_v2|eleven_flash_v2_5|eleven_v4|eleven_v4_turbo] [-o out.mp3]
+//        [--model eleven_v3|eleven_multilingual_v2|eleven_flash_v2_5|eleven_v4] [-o out.mp3]
 //
 // Credenciais: ELEVENLABS_API_KEY + ELEVENLABS_VOICE_PRINCIPAL (e opcional
 // ELEVENLABS_VOICE_CLOUD), lidas de process.env ou do .env do usuário.
@@ -27,7 +27,7 @@ const env = (name) => runtimeEnv[name] ?? null;
 
 // --- CLI ---
 const argv = process.argv.slice(2);
-const MODELS = ['eleven_v3', 'eleven_multilingual_v2', 'eleven_flash_v2_5', 'eleven_v4', 'eleven_v4_turbo'];
+const MODELS = ['eleven_v3', 'eleven_multilingual_v2', 'eleven_flash_v2_5', 'eleven_v4'];
 let text = null;
 let voiceArg = 'principal';
 let model = 'eleven_flash_v2_5'; // padrão equilibrado; v3 pode soar artificial em algumas vozes

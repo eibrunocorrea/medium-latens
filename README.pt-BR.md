@@ -91,7 +91,6 @@ Detalhes, inclusive como desligar a coleta de uso num build do fonte, em [CONTRI
 O CLI de voz (`node genai/voice.mjs`) e o motor de narração (`python3 engine/narrate.py`) aceitam `--model`. O padrão continua `eleven_flash_v2_5`; `eleven_v3` e `eleven_multilingual_v2` seguem disponíveis, e a narração mantém o fallback para `eleven_multilingual_v2` sem audio tags em caso de falha.
 
 - `eleven_v4`: GA desde 28/09/2026; PT-BR, audio tags e até 10.000 caracteres por requisição; sem SSML nem controles Style/Speed.
-- `eleven_v4_turbo`: o mesmo suporte de idioma, tags e limite por requisição, com metade do custo em créditos do v4 (igual ao Flash); sem SSML nem controles Style/Speed.
 
 ## Coleta de uso e privacidade
 

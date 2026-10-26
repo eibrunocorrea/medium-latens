@@ -7,8 +7,8 @@ const path = require("node:path");
 const { spawnSync } = require("node:child_process");
 
 const ROOT = path.join(__dirname, "..");
-const MODELS = ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5", "eleven_v4", "eleven_v4_turbo"];
-const TAG_MODELS = ["eleven_v3", "eleven_v4", "eleven_v4_turbo"];
+const MODELS = ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5", "eleven_v4"];
+const TAG_MODELS = ["eleven_v3", "eleven_v4"];
 const TEXT = "[excited] Olha essa carta! [laughs]";
 
 // Stubs installed before importing the CLI: no user credentials, network or files.
@@ -55,10 +55,16 @@ for (const model of [null, ...MODELS]) {
   });
 }
 
-test("voice usage lists both v4 models", () => {
+test("voice usage lists the catalog models", () => {
   const result = cli("genai/voice.mjs", []);
   assert.equal(result.status, 2);
   for (const model of MODELS) assert.ok(result.stderr.includes(model), result.stderr);
+});
+
+test("voice rejects eleven_v4_turbo: it only runs on the Text to Dialogue WebSocket", () => {
+  const result = cli("genai/voice.mjs", [TEXT, "--model", "eleven_v4_turbo"]);
+  assert.equal(result.status, 2);
+  assert.doesNotMatch(result.stdout, /REQUEST=/);
 });
 
 test("voice rejects unknown models without making a request", () => {
@@ -93,7 +99,7 @@ model, fallback = sys.argv[1], sys.argv[2] == "fallback"
 selected = model or "eleven_flash_v2_5"
 text = "[excited] Olha essa carta! [laughs]"
 plain = "Olha essa carta!"
-tag_models = {"eleven_v3", "eleven_v4", "eleven_v4_turbo"}
+tag_models = {"eleven_v3", "eleven_v4"}
 calls, manifests = [], []
 def run(args, **kwargs):
     calls.append(args)
@@ -139,6 +145,6 @@ for (const [model, mode] of [
 test("both READMEs document the new voice models", () => {
   for (const file of ["README.md", "README.pt-BR.md"]) {
     const text = fs.readFileSync(path.join(ROOT, file), "utf8");
-    for (const model of ["eleven_v4", "eleven_v4_turbo"]) assert.ok(text.includes('`' + model + '`'), file);
+    for (const model of ["eleven_v4"]) assert.ok(text.includes('`' + model + '`'), file);
   }
 });

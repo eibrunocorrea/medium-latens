@@ -7,7 +7,7 @@
       "principal": { "voice_id_env": "ELEVENLABS_VOICE_PRINCIPAL", "note": "voz principal" },
       "cloud": { "voice_id_env": "ELEVENLABS_VOICE_CLOUD", "note": "voz alternativa" }
     },
-    "models": ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5", "eleven_v4", "eleven_v4_turbo"],
+    "models": ["eleven_multilingual_v2", "eleven_v3", "eleven_flash_v2_5", "eleven_v4"],
     "default_model": "eleven_flash_v2_5",
     "cli": "genai/voice.mjs"
   },

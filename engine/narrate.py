@@ -35,7 +35,7 @@ from userpaths import PERFIL_NARRACAO  # noqa: E402
 VOICE_MJS = Path(__file__).resolve().parent.parent / "genai" / "voice.mjs"
 PROFILE = PERFIL_NARRACAO
 FALLBACK_MODEL = "eleven_multilingual_v2"
-TAG_MODELS = {"eleven_v3", "eleven_v4", "eleven_v4_turbo"}
+TAG_MODELS = {"eleven_v3", "eleven_v4"}
 TAG_RE = re.compile(r"\[[^\[\]]{1,40}\]\s*")
 
 
@@ -162,7 +162,7 @@ def main() -> None:
     ap.add_argument("--voice", default="principal")
     ap.add_argument("--model", default="eleven_flash_v2_5",  # v3 pode soar artificial em algumas vozes
                     choices=["eleven_v3", "eleven_multilingual_v2", "eleven_flash_v2_5",
-                             "eleven_v4", "eleven_v4_turbo"])
+                             "eleven_v4"])
     args = ap.parse_args()
 
     cards_json = Path(args.cards_json).expanduser()

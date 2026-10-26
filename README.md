@@ -91,7 +91,6 @@ Details, including how to turn usage collection off in a source build, are in [C
 The voice CLI (`node genai/voice.mjs`) and narration engine (`python3 engine/narrate.py`) accept `--model`. The default remains `eleven_flash_v2_5`; `eleven_v3` and `eleven_multilingual_v2` remain available, and narration still falls back to `eleven_multilingual_v2` without audio tags on failure.
 
 - `eleven_v4`: GA since September 28, 2026; Brazilian Portuguese, audio tags and up to 10,000 characters per request; no SSML or Style/Speed settings.
-- `eleven_v4_turbo`: the same language, tag and request-limit support, at half the v4 credit cost (matching Flash); no SSML or Style/Speed settings.
 
 ## Usage collection and privacy
 
