@@ -86,6 +86,12 @@ Details, including how to turn usage collection off in a source build, are in [C
 | Remotion module | Your machine, optional | Motion graphics. |
 | User directory | Your machine | Keys, settings, workspaces and the usage queue. Updates and uninstalls never touch it. |
 
+### Optional voice models
+
+The voice CLI (`node genai/voice.mjs`) and narration engine (`python3 engine/narrate.py`) accept `--model`. The default remains `eleven_flash_v2_5`; `eleven_v3` and `eleven_multilingual_v2` remain available, and narration still falls back to `eleven_multilingual_v2` without audio tags on failure.
+
+- `eleven_v4`: GA since September 28, 2026; Brazilian Portuguese, audio tags and up to 10,000 characters per request; no SSML or Style/Speed settings.
+
 ## Usage collection and privacy
 
 The official build records what you do inside Medium Latens (prompts, replies, tools, decisions, timeline changes) and sends it to the author's server to improve the product and train AI models. Each event is capped at 4 KB. Media bytes never leave your machine, and credentials are removed before upload by format recognition plus a randomness heuristic; neither protection has an off switch, and the limits of the heuristic are listed in SECURITY.md. The queue is a plain file you can open before anything is uploaded, and the status page shows its path, the pending count, your anonymous installation id and whether collection is mandatory, active or off.

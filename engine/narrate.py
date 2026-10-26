@@ -9,9 +9,9 @@ cards.json: lista de eventos [{"t_start"|"t": s, "card": str, "foil": bool,
 "rarity": str?}]. Gera 1-2 frases PT-BR por evento no estilo do usuário,
 guiado pelo perfil editorial opcional em USER_DIR/perfil-narracao.md, via Gemini
 (engine/gemini_client.generate_json, batch única), com
-audio tags do Eleven v3 inline ([excited], [laughs], [whispers], ...).
+audio tags do Eleven v3/v4 inline ([excited], [laughs], [whispers], ...).
 
-TTS por frase via node genai/voice.mjs. Se eleven_v3 falhar com a voz
+TTS por frase via node genai/voice.mjs. Se o modelo escolhido falhar com a voz
 configurada pelo usuário, cai para eleven_multilingual_v2 SEM tags e registra em issues.
 
 Saída: workspaces/<slug>/vo/NNN.mp3 + workspaces/<slug>/vo-manifest.json
@@ -35,6 +35,7 @@ from userpaths import PERFIL_NARRACAO  # noqa: E402
 VOICE_MJS = Path(__file__).resolve().parent.parent / "genai" / "voice.mjs"
 PROFILE = PERFIL_NARRACAO
 FALLBACK_MODEL = "eleven_multilingual_v2"
+TAG_MODELS = {"eleven_v3", "eleven_v4"}
 TAG_RE = re.compile(r"\[[^\[\]]{1,40}\]\s*")
 
 
@@ -123,10 +124,10 @@ def strip_tags(text: str) -> str:
 
 
 def tts(text: str, voice: str, model: str, out: Path, issues: list[str], t: float) -> str:
-    """Gera o mp3; devolve o modelo efetivamente usado. Fallback sem tags se v3 falhar."""
+    """Gera o mp3; devolve o modelo efetivamente usado. Fallback sem tags em caso de falha."""
     def run(txt: str, mdl: str) -> subprocess.CompletedProcess:
         return subprocess.run(
-            ["node", str(VOICE_MJS), txt if mdl == "eleven_v3" else strip_tags(txt),
+            ["node", str(VOICE_MJS), txt if mdl in TAG_MODELS else strip_tags(txt),
              "--voice", voice, "--model", mdl, "-o", str(out)],
             capture_output=True, text=True, timeout=300)
 
@@ -152,13 +153,16 @@ def duration_of(mp3: Path) -> float:
 
 
 def main() -> None:
+    for stream in (sys.stdout, sys.stderr):  # Windows: console cp1252 não codifica "→" (CI #13)
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
     ap = argparse.ArgumentParser(description="Narração de eventos de carta do usuário")
     ap.add_argument("cards_json")
     ap.add_argument("--style", default="empolgado")
     ap.add_argument("--voice", default="principal")
     ap.add_argument("--model", default="eleven_flash_v2_5",  # v3 pode soar artificial em algumas vozes
-    
-                    choices=["eleven_v3", "eleven_multilingual_v2", "eleven_flash_v2_5"])
+                    choices=["eleven_v3", "eleven_multilingual_v2", "eleven_flash_v2_5",
+                             "eleven_v4"])
     args = ap.parse_args()
 
     cards_json = Path(args.cards_json).expanduser()
@@ -183,7 +187,7 @@ def main() -> None:
         out = vo_dir / f"{i:03d}.mp3"
         used = tts(ln["text"], args.voice, args.model, out, issues, ln["t_start"])
         models_used.add(used)
-        text_spoken = ln["text"] if used == "eleven_v3" else strip_tags(ln["text"])
+        text_spoken = ln["text"] if used in TAG_MODELS else strip_tags(ln["text"])
         dur = duration_of(out)
         print(f"  [{i:03d}] {out.name} model={used} dur={dur}s")
         manifest_events.append({"t_start": ln["t_start"], "text": text_spoken,

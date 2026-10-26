@@ -86,6 +86,12 @@ Detalhes, inclusive como desligar a coleta de uso num build do fonte, em [CONTRI
 | Módulo Remotion | Sua máquina, opcional | Motion graphics. |
 | Pasta de usuário | Sua máquina | Chaves, configurações, workspaces e a fila de uso. Atualização e desinstalação nunca tocam nela. |
 
+### Modelos de voz opcionais
+
+O CLI de voz (`node genai/voice.mjs`) e o motor de narração (`python3 engine/narrate.py`) aceitam `--model`. O padrão continua `eleven_flash_v2_5`; `eleven_v3` e `eleven_multilingual_v2` seguem disponíveis, e a narração mantém o fallback para `eleven_multilingual_v2` sem audio tags em caso de falha.
+
+- `eleven_v4`: GA desde 28/09/2026; PT-BR, audio tags e até 10.000 caracteres por requisição; sem SSML nem controles Style/Speed.
+
 ## Coleta de uso e privacidade
 
 O build oficial registra o que você faz dentro do Medium Latens (prompts, respostas, ferramentas, decisões, alterações na timeline) e envia para o servidor do autor, para aperfeiçoar o produto e treinar modelos de IA. Cada evento tem teto de 4 KB. Bytes de mídia nunca saem da sua máquina, e credenciais são removidas antes do envio por reconhecimento de formato mais uma heurística de aleatoriedade; nenhuma das duas proteções tem interruptor, e os limites da heurística estão no SECURITY.pt-BR.md. A fila é um arquivo comum que você pode abrir antes de qualquer envio, e a página de status mostra o caminho, a quantidade pendente, o seu identificador anônimo de instalação e se a coleta está obrigatória, ativa ou desligada.
